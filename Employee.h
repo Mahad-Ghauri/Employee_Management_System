@@ -47,11 +47,11 @@ public:
         string id;
         ifstream file;
         file.open("EmployeesData.txt");
-        if (!file.is_open())
-        {
-            cout << " Error opening the file " << endl;
-            return;
-        }
+        // if (!file.is_open())
+        // {
+        //     cout << " Error opening the file " << endl;
+        //     return;
+        // }
 
         cout << " \n ";
 
@@ -1293,7 +1293,8 @@ public:
                     cout << " An employee with such ID donot exist in our system " << endl;
                     goto a;
                 }
-
+                
+                goto a;
                 break;
 
             case '7':
