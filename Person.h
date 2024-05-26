@@ -434,7 +434,7 @@ protected:
     }
 
     // Login
-    virtual bool Strong_Username(string _user_name)
+    virtual bool Strong_Username(const string& _user_name)
     {
         bool _has_upper_case = false;
         bool _has_lower_case = false;
@@ -454,7 +454,7 @@ protected:
             {
                 _has_symbol = true;
             }
-            if (_has_upper_case && _has_lower_case && _has_symbol)
+            if (_has_upper_case == true && _has_lower_case == true && _has_symbol == true)
             {
                 return true;
             }

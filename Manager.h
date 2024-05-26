@@ -113,6 +113,7 @@ public:
             }
             file.close();
         }
+
         cin.ignore();
 
     a:
@@ -1005,9 +1006,32 @@ public:
         file.close();
     }
 
-    bool Strong_Username(string _username) override
+    bool Strong_Username(const string &_username)
     {
-        Strong_Username(_username);
+        bool _has_upper_case = false;
+        bool _has_lower_case = false;
+        bool _has_symbol = false;
+
+        for (int i = 0; i < _username.length(); i++) // loop executing on each character of the username.
+        {
+            if (isupper(_username[i])) // Built-in functions check for uppercase letters
+            {
+                _has_upper_case = true;
+            }
+            else if (islower(_username[i])) // Built-in functions  check for lowercase letters
+            {
+                _has_lower_case = true;
+            }
+            else if (ispunct(_username[i])) // Built-in functions  check for punctuation(symbol)
+            {
+                _has_symbol = true;
+            }
+            if (_has_upper_case == true && _has_lower_case == true && _has_symbol == true)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     void Manager_SignUp()
@@ -1018,9 +1042,14 @@ public:
         cout << " Enter your manager ID to sign-up ";
         cin >> _enter_id;
 
+        cin.ignore();
+
         match = Match_Manager_ID(_enter_id);
 
-        if (match == true)
+        cout << " The manager id has  been found " << endl;
+        Sleep(2000);
+
+        if (match)
         {
         point: // point declared here will come here if username requirements not met
             system("CLS");
@@ -1031,6 +1060,7 @@ public:
             cout << "\n\n\t\tPlease SIGN UP by adding username and password " << endl;
             cout << "\n\n\t\tEnter Username :  ";
             getline(cin, username);
+
             if (username.length() <= 6 || !Strong_Username(username))
             {
                 cout << "\tThe username must consist of more than six characters "

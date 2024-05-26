@@ -1,19 +1,22 @@
+#ifndef PARKING_H
+#define PARKING_H
+
 #include "Person.h"
 using namespace std;
 
-class parking
+class Parking
 {
 private:
     static const int max_space = 10;
     string name[max_space];
-    int employee_id[max_space];
+    string employee_id[max_space];
     time_t parking_Time[max_space];
     int spots;
 
 public:
-    parking() { spots = 0; }
+    Parking() { spots = 0; }
 
-    bool allot_Spots(string n, int i)
+    bool Allot_Spots(string n, string i)
     {
         if (spots < max_space)
         {
@@ -26,7 +29,7 @@ public:
         return false;
     }
 
-    bool dismiss_Spots(int i)
+    bool Dismiss_Spots(string i)
     {
         for (int index = 0; index < spots; index++)
         {
@@ -45,7 +48,7 @@ public:
         return false;
     }
 
-    void check_in()
+    void Check_in()
     {
         ofstream checking_in("checkIn_info.txt", ios::app);
         if (!checking_in.is_open())
@@ -69,7 +72,7 @@ public:
         checking_in.close();
     }
 
-    void check_out()
+    void Check_out()
     {
         cout << "\nNumber of parked employees: " << spots << endl;
         for (int i = 0; i < spots; i++)
@@ -97,96 +100,4 @@ public:
     }
 };
 
-int main()
-{
-    int id, check_id;
-    string name;
-    bool found = false;
-    parking obj;
-
-a:
-    cout << "Enter the id of the employee: " << endl;
-    cin >> id;
-    cin.ignore();
-    cout << "Enter the name of the employee: " << endl;
-    getline(cin, name);
-
-    char option;
-
-start:
-    cout << "Do you want to check in or check out? " << endl;
-    cout << " __________________________________________ " << endl;
-    cout << "|                                          |" << endl;
-    cout << "|           1--> Check In                  |" << endl;
-    cout << "|           2--> Check Out                 |" << endl;
-    cout << "|__________________________________________|" << endl;
-    option = getch();
-
-    switch (option)
-    {
-    case '1':
-    {
-        ifstream check_existing("checkIn_info.txt");
-
-        while (check_existing >> check_id)
-        {
-            string temp_name;
-            getline(check_existing, temp_name); // Consume the newline character
-            getline(check_existing, temp_name);
-            if (check_id == id)
-            {
-                found = true;
-                break;
-            }
-        }
-        check_existing.close();
-        if (found)
-        {
-            cout << " Employee is already parked." << endl;
-            goto a;
-        }
-        else
-        {
-            obj.allot_Spots(name, id);
-            obj.check_in();
-            goto a;
-        }
-        break;
-    }
-
-    case '2':
-    {
-        ifstream check_existing("checkIn_info.txt");
-
-        while (check_existing >> check_id)
-        {
-            string temp_name;
-            getline(check_existing, temp_name); // Consume the newline character
-            getline(check_existing, temp_name);
-            if (check_id == id)
-            {
-                found = true;
-                break;
-            }
-        }
-        check_existing.close();
-        if (found) // found  = 1  When 1 the condition is true
-        {
-            obj.dismiss_Spots(id);
-            obj.check_out();
-        }
-        else
-        {
-            cout << "Employee not found." << endl;
-            goto a;
-        }
-        break;
-    }
-    default:
-    {
-        cout << "Select a valid option. " << endl;
-        goto start;
-        break;
-    }
-    }
-}
+#endif

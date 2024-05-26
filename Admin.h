@@ -18,7 +18,7 @@ public:
         _total_manager = 0;
     }
 
-    bool Is_Strong_Username(string _user_name)
+    bool Is_Strong_Username(const string& _user_name)
     {
         bool _has_upper_case = false;
         bool _has_lower_case = false;

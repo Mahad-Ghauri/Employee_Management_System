@@ -2,7 +2,10 @@
 
 int main()
 {
+start:
     Admin a1;
+    Sleep(2000);
+    system("CLS");
     cout << "\n";
     cout << "\t\t\t\t*************************************************" << endl;
     cout << "\t\t\t\t**=============================================**" << endl;
@@ -59,9 +62,7 @@ int main()
 
     default:
         cout << "\n\n\t\tEnter a valid option ";
-        Sleep(2000);
-        system("CLS");
-        main();
+        goto start;
     }
 
     return 0;
