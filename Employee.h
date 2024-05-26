@@ -1,9 +1,10 @@
 #ifndef EMPLOYEE_H
 #define EMPLOYEE_H
 
+#include "Parking.h"
 #include "Person.h"
 
-class Employee : virtual public Person // The final keyword prevent further inheritance of the class
+class Employee : virtual public Person, public Parking // The final keyword prevent further inheritance of the class
 {
 private:
     int _employee_number;
@@ -805,7 +806,7 @@ public:
 
         // Reading from the file to take the id of the employee and match whether an employee with this id exists or not
         // Also to update the employee leaves if their leave is accepted
-        // The      'ws'     is used to skip any leading whitespace character in the input stream  
+        // The  'ws'     is used to skip any leading whitespace character in the input stream
         while (file >> _id >> ws && getline(file, _name) >> _age >> _phone_number >> ws && getline(file, _employee_designation) >> _salary >> _employee_leaves >> ws && getline(file, _address))
         {
             if (id == _id)
@@ -1068,6 +1069,10 @@ public:
 
     bool Employee_Login(string _user_id)
     {
+        string id, check_id, name;
+        bool found = false;
+        Parking obj;
+
     start: // start point will come here in case of logging out
         system("ClS");
         string username_1, pass_1, password, username;
@@ -1137,8 +1142,9 @@ public:
             cout << "\t\t\t|       3--> To apply for leaves           |" << endl;
             cout << "\t\t\t|       4--> To update your information    |" << endl;
             cout << "\t\t\t|       5--> To See your attendance        |" << endl;
-            cout << "\t\t\t|       6--> To Go Back                    |" << endl;
-            cout << "\t\t\t|       7--> To Exit the program           |" << endl;
+            cout << "\t\t\t|       6--> To Check-in and Ckeck-out     |" << endl;
+            cout << "\t\t\t|       7--> To Go Back                    |" << endl;
+            cout << "\t\t\t|       8--> To Exit the program           |" << endl;
             cout << "\t\t\t|__________________________________________|" << endl;
             choice = getch();
 
@@ -1169,10 +1175,100 @@ public:
                 break;
 
             case '6':
-                return true;
+            a:
+                cout << "Enter the id of the employee: " << endl;
+                cin >> id;
+                cin.ignore();
+                found = Match_Employee_ID(id);
+                cout << "Enter the name of the employee: " << endl;
+                getline(cin, name);
+
+                char option;
+
+            start:
+                cout << "Do you want to check in or check out? " << endl;
+                cout << " __________________________________________ " << endl;
+                cout << "|                                          |" << endl;
+                cout << "|           1--> Check In                  |" << endl;
+                cout << "|           2--> Check Out                 |" << endl;
+                cout << "|__________________________________________|" << endl;
+                option = getch();
+
+                switch (option)
+                {
+                    case '1':
+                    {
+                        ifstream check_existing("checkIn_info.txt");
+
+                        while (check_existing >> check_id)
+                        {
+                            string temp_name;
+                            getline(check_existing, temp_name); // Consume the newline character
+                            getline(check_existing, temp_name);
+                            if (check_id == id)
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+                        check_existing.close();
+                        if (found)
+                        {
+                            cout << " Employee is already parked." << endl;
+                            goto a;
+                        }
+                        else
+                        {
+                            obj.Allot_Spots(name, id);
+                            obj.Check_in();
+                            goto a;
+                        }
+                        break;
+                    }
+
+                    case '2':
+                    {
+                        ifstream check_existing("checkIn_info.txt");
+
+                        while (check_existing >> check_id)
+                        {
+                            string temp_name;
+                            getline(check_existing, temp_name); // Consume the newline character
+                            getline(check_existing, temp_name);
+                            if (check_id == id)
+                            {
+                                found = true;
+                                break;
+                         }
+                        }
+                        check_existing.close();
+                        if (found) // found  = 1  When 1 the condition is true
+                        {
+                            obj.Dismiss_Spots(id);
+                            obj.Check_out();
+                        }
+                        else
+                        {
+                          cout << "Employee not found." << endl;
+                            goto a;
+                        }
+                        break;
+                    }
+                    default:
+                    {
+                        cout << "Select a valid option. " << endl;
+                        goto start;
+                        break;
+                    }
+                }
+
                 break;
 
             case '7':
+                return true;
+                break;
+
+            case '8':
                 return false;
                 break;
 
