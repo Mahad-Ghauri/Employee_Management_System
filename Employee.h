@@ -976,9 +976,32 @@ public:
     }
 
     // This function checks whether the username entered is string or not
-    bool Strong_Username(string _username) override
+    bool Strong_Username(const string &_username) override
     {
-        Strong_Username(_username);
+        bool _has_upper_case = false;
+        bool _has_lower_case = false;
+        bool _has_symbol = false;
+
+        for (int i = 0; i < _username.length(); i++) // loop executing on each character of the username.
+        {
+            if (isupper(_username[i])) // Built-in functions check for uppercase letters
+            {
+                _has_upper_case = true;
+            }
+            else if (islower(_username[i])) // Built-in functions  check for lowercase letters
+            {
+                _has_lower_case = true;
+            }
+            else if (ispunct(_username[i])) // Built-in functions  check for punctuation(symbol)
+            {
+                _has_symbol = true;
+            }
+            if (_has_upper_case == true && _has_lower_case == true && _has_symbol == true)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     void Employee_Sign_Up()
@@ -989,9 +1012,11 @@ public:
         cout << " Enter your employee ID to sign-up ";
         cin >> _enter_id;
 
+        cin.ignore();
+
         match = Match_Employee_ID(_enter_id);
 
-        if (match == true)
+        if (match)
         {
         point: // point declared here will come here if username requirements not met
             system("CLS");
@@ -1186,7 +1211,7 @@ public:
                     getline(cin, name);
                     char option;
 
-                start:
+                point_b:
                     cout << "Do you want to check in or check out? " << endl;
                     cout << " __________________________________________ " << endl;
                     cout << "|                                          |" << endl;
@@ -1258,7 +1283,7 @@ public:
                     default:
                     {
                         cout << "Select a valid option. " << endl;
-                        goto start;
+                        goto point_b;
                         break;
                     }
                     }
