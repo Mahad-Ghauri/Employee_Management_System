@@ -1180,22 +1180,23 @@ public:
                 cin >> id;
                 cin.ignore();
                 found = Match_Employee_ID(id);
-                cout << "Enter the name of the employee: " << endl;
-                getline(cin, name);
-
-                char option;
-
-            start:
-                cout << "Do you want to check in or check out? " << endl;
-                cout << " __________________________________________ " << endl;
-                cout << "|                                          |" << endl;
-                cout << "|           1--> Check In                  |" << endl;
-                cout << "|           2--> Check Out                 |" << endl;
-                cout << "|__________________________________________|" << endl;
-                option = getch();
-
-                switch (option)
+                if (found)
                 {
+                    cout << "Enter the name of the employee: " << endl;
+                    getline(cin, name);
+                    char option;
+
+                start:
+                    cout << "Do you want to check in or check out? " << endl;
+                    cout << " __________________________________________ " << endl;
+                    cout << "|                                          |" << endl;
+                    cout << "|           1--> Check In                  |" << endl;
+                    cout << "|           2--> Check Out                 |" << endl;
+                    cout << "|__________________________________________|" << endl;
+                    option = getch();
+
+                    switch (option)
+                    {
                     case '1':
                     {
                         ifstream check_existing("checkIn_info.txt");
@@ -1239,7 +1240,7 @@ public:
                             {
                                 found = true;
                                 break;
-                         }
+                            }
                         }
                         check_existing.close();
                         if (found) // found  = 1  When 1 the condition is true
@@ -1249,7 +1250,7 @@ public:
                         }
                         else
                         {
-                          cout << "Employee not found." << endl;
+                            cout << "Employee not found." << endl;
                             goto a;
                         }
                         break;
@@ -1260,6 +1261,12 @@ public:
                         goto start;
                         break;
                     }
+                    }
+                }
+                else
+                {
+                    cout << " An employee with such ID donot exist in our system " << endl;
+                    goto a;
                 }
 
                 break;
