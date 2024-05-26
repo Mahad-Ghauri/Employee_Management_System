@@ -805,6 +805,7 @@ public:
 
         // Reading from the file to take the id of the employee and match whether an employee with this id exists or not
         // Also to update the employee leaves if their leave is accepted
+        // The      'ws'     is used to skip any leading whitespace character in the input stream  
         while (file >> _id >> ws && getline(file, _name) >> _age >> _phone_number >> ws && getline(file, _employee_designation) >> _salary >> _employee_leaves >> ws && getline(file, _address))
         {
             if (id == _id)
