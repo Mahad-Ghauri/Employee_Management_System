@@ -1175,7 +1175,7 @@ public:
                 break;
 
             case '6':
-            a:
+            point:
                 cout << "Enter the id of the employee: " << endl;
                 cin >> id;
                 cin.ignore();
@@ -1216,13 +1216,13 @@ public:
                         if (found)
                         {
                             cout << " Employee is already parked." << endl;
-                            goto a;
+                            goto point;
                         }
                         else
                         {
                             obj.Allot_Spots(name, id);
                             obj.Check_in();
-                            goto a;
+                            goto point;
                         }
                         break;
                     }
