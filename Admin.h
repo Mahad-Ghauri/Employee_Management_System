@@ -420,15 +420,76 @@ public:
         }
     }
 
-        void Password_Recovery_Option_For_Admin()
-        {
-            string username, password, username_1, password_1;
-            bool match = false;
+    void Password_Recovery_Option_For_Admin()
+    {
+        string username, password, username_1, password_1;
+        bool match = false;
 
+        cout << " Enter the username: ";
+        getline(cin, username);
+
+        cout << " Enter the last password that you have remembered: ";
+        char pass;
+        password.clear();
+        while ((pass = _getch()) != '\r') // loop will execute for each character until enter is pressed
+        {
+            if (pass >= 32 && pass <= 126)
+            {
+                cout << '*';
+                password.push_back(pass); // will add new character.
+            }
+            else if (pass == 8 && password.length() > 0) // dealing with if backspace is pressed
+            {
+                password.pop_back(); // will remove last character
+                cout << "\b \b";
+            }
+        }
+
+        ifstream file;
+        file.open("AdminUserPass.txt");
+        if (!file.is_open())
+        {
+            cout << " Error opening the file " << endl;
+            return;
+        }
+
+        while (getline(file, username_1) && file >> password_1)
+        {
+            file.ignore(1000, '\n');
+            if (username == username_1 && password != password_1)
+            {
+                match = true;
+                break;
+            }
+        }
+        file.close();
+
+        if (match)
+        {
+            cout << " \n ";
+            cout << " Now enter the new username and password" << endl;
+
+        point:
             cout << " Enter the username: ";
             getline(cin, username);
+            if (username.length() <= 6 || !Is_Strong_Username(username))
+            {
+                cout << "\tThe username must consist of more than six characters "
+                     << "and consist of at least one upper case, one lower case, and one symbol." << endl;
+                cout << endl;
+                Sleep(3000);
+                goto point;
+            }
+            else if (username.length() >= 20 || !Is_Strong_Username(username))
+            {
+                cout << "\tThe username must consist of less than twenty characters "
+                     << "and consist of at least one upper case, one lower case, and one symbol." << endl;
+                cout << endl;
+                Sleep(3000);
+                goto point;
+            }
 
-            cout << " Enter the last password that you have remembered: ";
+            cout << " Enter the new password: ";
             char pass;
             password.clear();
             while ((pass = _getch()) != '\r') // loop will execute for each character until enter is pressed
@@ -444,143 +505,81 @@ public:
                     cout << "\b \b";
                 }
             }
+            if (password.length() < 5)
+            {
+                cout << " \t The password length should be more than 5  " << endl;
+                Sleep(1000);
+                goto point;
+            }
 
-            ifstream file;
-            file.open("AdminUserPass.txt");
-            if (!file.is_open())
+            fstream file_1;
+            file_1.open("temp.txt", ios::out | ios::app);
+            if (!file_1.is_open())
             {
                 cout << " Error opening the file " << endl;
                 return;
             }
+            file_1 << username << "\n";
+            file_1 << password << "\n";
+            file_1.close();
 
-            while (getline(file, username_1) && file >> password_1)
+            remove("AdminUserPass.txt");
+            rename("temp.txt", "AdminUserPass.txt");
+            cout << "\n\n\t\tYour ID is being created. Please Wait ";
+            for (int i = 0; i < 4; i++) // used to make a delay on the screen
             {
-                file.ignore(1000, '\n');
-                if (username == username_1 && password != password_1)
-                {
-                    match = true;
-                    break;
-                }
+                cout << ".";
+                Sleep(1000);
             }
-            file.close();
-
-            if (match)
-            {
-                cout << " \n ";
-                cout << " Now enter the new username and password" << endl;
-
-            point:
-                cout << " Enter the username: ";
-                getline(cin, username);
-                if (username.length() <= 6 || !Is_Strong_Username(username))
-                {
-                    cout << "\tThe username must consist of more than six characters "
-                         << "and consist of at least one upper case, one lower case, and one symbol." << endl;
-                    cout << endl;
-                    Sleep(3000);
-                    goto point;
-                }
-                else if (username.length() >= 20 || !Is_Strong_Username(username))
-                {
-                    cout << "\tThe username must consist of less than twenty characters "
-                         << "and consist of at least one upper case, one lower case, and one symbol." << endl;
-                    cout << endl;
-                    Sleep(3000);
-                    goto point;
-                }
-
-                cout << " Enter the new password: ";
-                char pass;
-                password.clear();
-                while ((pass = _getch()) != '\r') // loop will execute for each character until enter is pressed
-                {
-                    if (pass >= 32 && pass <= 126)
-                    {
-                        cout << '*';
-                        password.push_back(pass); // will add new character.
-                    }
-                    else if (pass == 8 && password.length() > 0) // dealing with if backspace is pressed
-                    {
-                        password.pop_back(); // will remove last character
-                        cout << "\b \b";
-                    }
-                }
-                if (password.length() < 5)
-                {
-                    cout << " \t The password length should be more than 5  " << endl;
-                    Sleep(1000);
-                    goto point;
-                }
-
-                fstream file_1;
-                file_1.open("temp.txt", ios::out | ios::app);
-                if (!file_1.is_open())
-                {
-                    cout << " Error opening the file " << endl;
-                    return;
-                }
-                file_1 << username << "\n";
-                file_1 << password << "\n";
-                file_1.close();
-
-                remove("AdminUserPass.txt");
-                rename("temp.txt", "AdminUserPass.txt");
-                cout << "\n\n\t\tYour ID is being created. Please Wait ";
-                for (int i = 0; i < 4; i++) // used to make a delay on the screen
-                {
-                    cout << ".";
-                    Sleep(1000);
-                }
-                cout << "\n\n\t\tYour ID HAS BEEN CREATED ";
-            }
-            else
-            {
-                cout << " No matching username and password found. " << endl;
-                Sleep(2000);
-            }
+            cout << "\n\n\t\tYour ID HAS BEEN CREATED ";
         }
-
-        // Manager's
-
-        void Set_Total_Managers()
+        else
         {
-        a:
-            int number;
-            cout << " Enter the total manager you have in your comapny ";
-            cin >> number;
-            if (cin.fail())
-            {
-                cout << " Invalid Input. Please enter again " << endl;
-                goto a;
-            }
-
-            _total_manager = number;
+            cout << " No matching username and password found. " << endl;
+            Sleep(2000);
         }
+    }
 
-        int Get_Total_Number_Of_Managers()
+    // Manager's
+
+    void Set_Total_Managers()
+    {
+    a:
+        int number;
+        cout << " Enter the total manager you have in your comapny ";
+        cin >> number;
+        if (cin.fail())
         {
-            return _total_manager;
+            cout << " Invalid Input. Please enter again " << endl;
+            goto a;
         }
 
-        void Set_Number_Of_Managers()
-        {
-        a:
-            int number;
-            cout << " Enter the number of managers you want to enter ";
-            cin >> number;
-            if (cin.fail())
-            {
-                cout << " Invlaid Input. Please enter again " << endl;
-                goto a;
-            }
-            _manager_add = number;
-        }
+        _total_manager = number;
+    }
 
-        int Get_Number_Of_Managers()
+    int Get_Total_Number_Of_Managers()
+    {
+        return _total_manager;
+    }
+
+    void Set_Number_Of_Managers()
+    {
+    a:
+        int number;
+        cout << " Enter the number of managers you want to enter ";
+        cin >> number;
+        if (cin.fail())
         {
-            return _manager_add;
+            cout << " Invlaid Input. Please enter again " << endl;
+            goto a;
         }
-    
+        _manager_add = number;
+    }
+
+    int Get_Number_Of_Managers()
+    {
+        return _manager_add;
+    }
 };
 
 #endif
