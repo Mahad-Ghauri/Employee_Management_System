@@ -30,8 +30,6 @@ public:
         return _employee_number;
     }
 
-    // By overriding future error could be reduced
-
     void Set_ID(string id)
     {
         set_ID(id); // Called a member function of the base class
@@ -281,7 +279,7 @@ public:
         cout << "Search the data by entering the id : ";
         cin >> search_id;
 
-        register int found = false; // A flag variable
+        register bool found = false; // A flag variable
         fstream file;
         file.open("EmployeesData.txt", ios::in);
 
@@ -429,7 +427,7 @@ public:
     void Update_Employee_Data()
     {
         string promote_id;
-        int choose;
+        char choose;
         register bool found = false; // A flag variable
 
         cout << "\tEnter the employee ID to update data: ";
@@ -476,56 +474,36 @@ public:
                      << "\n\t\t   |  4--> Salary                             |"
                      << "\n\t\t   |  5--> Total Leaves                       |";
                 cout << "\n\t\t   |__________________________________________|" << endl;
-                cin >> choose;
-                if (cin.fail())
-                {
-                    cout << " \n";
-                    cout << " \t\t\t   Error! Please choose from the below " << endl;
-                    cout << " \n";
-                    cout << "\n\t\t\t   -------------Choose from below------------- " << endl;
-                    cout << "\n\t\t    ___________________________________________ ";
-                    cout << "\n\t\t   |                                           |";
-                    cout << "\n\t\t   |  1--> Designation                         |"
-                         << "\n\t\t   |  2--> Address                             |"
-                         << "\n\t\t   |  3--> Phone Number                        |"
-                         << "\n\t\t   |  4--> Salary                              |"
-                         << "\n\t\t   |  5--> Total Leaves                        |";
-                    cout << "\n\t\t   |___________________________________________|" << endl;
-                    // Built-in function   This function returns true when an input failure occurs. In this case it would be an input that is not an integer.
-                    //  If the cin fails then the input buffer is kept in an error state.  Buffer is region of memory used to store data temporarily
-                    cin.clear();
+                choose = getch();
 
-                    // Built-in function    This function to remove undesirable characters from the input buffer
-                    cin.ignore(132, '\n');
-                    cin >> choose;
-                } // Function called for input validation
-
+                Sleep(3000);
                 system("CLS");
+
                 switch (choose)
                 {
-                case 1:
+                case '1':
                     cout << "\tEnter the new designation: ";
                     cin.ignore();
                     getline(cin, _employee_designation);
                     break;
 
-                case 2:
+                case '2':
                     cout << "\n\tEnter the new address: ";
                     cin.ignore();
                     getline(cin, _address);
                     break;
 
-                case 3:
+                case '3':
                     cout << "\n\tEnter the new phone number: ";
                     cin >> _phone_number;
                     break;
 
-                case 4:
+                case '4':
                     cout << "\n\tEnter the new salary: ";
-                    // cin >> salary;
+                    cin >> _salary;
                     break;
 
-                case 5:
+                case '5':
                     cout << "\n\tEnter the new total leaves: ";
                     cin >> _employee_leaves;
                     break;
@@ -953,6 +931,7 @@ public:
     {
         ifstream file;
         file.open("EmployeesAttendance.txt");
+        // The validation will be automatically executed because the file has not been created and we are opening it for input u
         // if (!file.is_open())
         // {
         //     cout << "Unable to open file.";
@@ -1021,7 +1000,8 @@ public:
         point: // point declared here will come here if username requirements not met
             system("CLS");
             string username, password;
-            Set_ID(_enter_id);
+
+            Set_ID(_enter_id); // Id of the employee is being set
 
             cout << "\n\n\t\tEmployee Managment System : " << endl;
             cout << "\n\n\t\tPlease SIGN UP by adding username and password " << endl;
@@ -1103,7 +1083,10 @@ public:
         string username_1, pass_1, password, username;
         register bool match = false; // bool found used to check conditions
 
-        cout << "\n\n\t\tEmployee Managment System : " << endl;
+        cout << "\t\t\t===============================================================" << endl;
+        cout << "\t\t\t               Employee Management System                      " << endl;
+        cout << "\t\t\t===============================================================" << endl;
+
         cout << "\n\n\t\tPlease Login by entering username and password " << endl;
         cout << "\n\n\t\tEnter Username:  ";
         getline(cin, username_1);
@@ -1168,8 +1151,9 @@ public:
             cout << "\t\t\t|       4--> To update your information    |" << endl;
             cout << "\t\t\t|       5--> To See your attendance        |" << endl;
             cout << "\t\t\t|       6--> To Check-in and Ckeck-out     |" << endl;
-            cout << "\t\t\t|       7--> To Go Back                    |" << endl;
-            cout << "\t\t\t|       8--> To Exit the program           |" << endl;
+            cout << "\t\t\t|       7--> To Apply for promotion        |" << endl;
+            cout << "\t\t\t|       8--> To Go Back                    |" << endl;
+            cout << "\t\t\t|       9--> To Exit the program           |" << endl;
             cout << "\t\t\t|__________________________________________|" << endl;
             choice = getch();
 
@@ -1293,15 +1277,22 @@ public:
                     cout << " An employee with such ID donot exist in our system " << endl;
                     goto a;
                 }
-                
+
                 goto a;
                 break;
 
             case '7':
+                Employee_Applying_For_Promotion(Get_ID());
+                goto a;
+                break;
+
+
+
+            case '8':
                 return true;
                 break;
 
-            case '8':
+            case '9':
                 return false;
                 break;
 
@@ -1371,7 +1362,7 @@ public:
         }
     }
 
-    // This function is used ot show the data o fthe employee which can be accessed by the employee itself
+    // This function is used ot show the data of the employee which can be accessed by the employee itself
     void Show_This_Employee_Information(const string &_emp_id)
     {
         // register int found = false; // A flag variable
@@ -1437,6 +1428,251 @@ public:
         {
             cout << "\tData of this id id not present";
         }*/
+    }
+
+    // last day added member functions ( might have some working issues )
+
+    // Making the member function for promotion of the manager at new designation
+    void Employee_Applying_For_Promotion(const string &_emp_id)
+    {
+        // string promote_id;
+
+        char main_choice, sub_choice;
+        register bool found = false; // A flag variable
+
+        /*cout << "\tEnter the Manager ID for promotion: ";
+        cin >> promote_id;*/
+
+        fstream file, file_1;
+        file.open("EmployeesData.txt", ios::in);
+        if (!file.is_open())
+        {
+            cout << "\tError opening file.";
+            return;
+        }
+
+        file_1.open("promote.txt", ios::out);
+        if (!file_1.is_open())
+        {
+            cout << "\tError opening file.";
+            return;
+        }
+
+        file >> _id;
+        file.ignore();
+        getline(file, _name);
+        file >> _age >> _phone_number;
+        file.ignore();
+        getline(file, _employee_designation);
+        file >> _salary >> _employee_leaves;
+        file.ignore();
+        getline(file, _address);
+
+        while (!file.eof())
+        {
+            if (_emp_id == _id)
+            {
+            Menu:
+                cout << "\n\t\t\t-------------Choose from below------------- " << endl;
+                cout << "\t\t    __________________________________________ " << endl;
+                cout << "\t\t   |                                          |" << endl;
+                cout << "\t\t   |  1--> Promote to a new designation       |" << endl;
+                cout << "\t\t   |__________________________________________|" << endl;
+                main_choice = getch();
+
+                Sleep(3000);
+                system("CLS");
+
+                switch (main_choice)
+                {
+                case '1':
+                e:
+
+                    cout << "\t\t\tDesignation of the employees: " << endl;
+                    cout << "\t\t\tWhat is the type of the employee " << endl;
+                    cout << "\t\t\t-------------Choose from below--------------" << endl;
+                    cout << "\t\t\t____________________________________________" << endl;
+                    cout << "\t\t\t|                                           |" << endl;
+                    cout << "\t\t\t|        1-> Office boy                     |" << endl;
+                    cout << "\t\t\t|        2-> Clerk                          |" << endl;
+                    cout << "\t\t\t|        3-> Accountant                     |" << endl;
+                    cout << "\t\t\t|        4-> IT specailist                  |" << endl;
+                    cout << "\t\t\t|        5-> Sales Representative           |" << endl;
+                    cout << "\t\t\t|        6-> Marketing person               |" << endl;
+                    cout << "\t\t\t|___________________________________________|" << endl;
+                    sub_choice = getch();
+
+                    switch (sub_choice)
+                    {
+                    case '1':
+                        if (Promotion_Approval())
+                        {
+                            Application_Accepted();
+                            _employee_designation = "Office Boy";
+                            _salary = 30000;
+                            _employee_leaves = 6;
+                        }
+                        else
+                        {
+                            Application_Rejected();
+                        }
+
+                        break;
+
+                    case '2':
+                        if (Promotion_Approval())
+                        {
+                            Application_Accepted();
+                            _employee_designation = "Clerk";
+                            _salary = 40000;
+                            _employee_leaves = 4;
+                        }
+                        else
+                        {
+                            Application_Rejected();
+                        }
+
+                        break;
+                    case '3':
+                        if (Promotion_Approval())
+                        {
+                            Application_Accepted();
+                            _employee_designation = "Accountant";
+                            _salary = 50000;
+                            _employee_leaves = 5;
+                        }
+                        else
+                        {
+                            Application_Rejected();
+                        }
+
+                        break;
+                    case '4':
+                        if (Promotion_Approval())
+                        {
+                            Application_Accepted();
+                            _employee_designation = "IT specailist";
+                            _salary = 100000;
+                            _employee_leaves = 8;
+                        }
+                        else
+                        {
+                            Application_Rejected();
+                        }
+
+                        break;
+                    case '5':
+                        if (Promotion_Approval())
+                        {
+                            Application_Accepted();
+                            _employee_designation = "Sales Representative";
+                            _salary = 70000;
+                            _employee_leaves = 6;
+                        }
+                        else
+                        {
+                            Application_Rejected();
+                        }
+
+                        break;
+                    case '6':
+                        if (Promotion_Approval())
+                        {
+                            Application_Accepted();
+                            _employee_designation = " Marketing person ";
+                            _salary = 80000;
+                            _employee_leaves = 5;
+                        }
+                        else
+                        {
+                            Application_Rejected();
+                        }
+
+                        break;
+
+                    default:
+                        cout << " Invalid choice!!! . Please enter again " << endl;
+                        goto e;
+                        break;
+                    }
+
+                    break;
+
+                default:
+                    cout << "\n\t Invalid Input Please enter form the given choice " << endl;
+                    system("CLS"); // To clear the screen
+                    goto e;
+                }
+
+                found = true;
+            }
+
+            file_1 << _id << "\n";
+            file_1 << _name << "\n";
+            file_1 << _age << "\n";
+            file_1 << _phone_number << "\n";
+            file_1 << _employee_designation << "\n";
+            file_1 << _salary << "\n";
+            file_1 << _employee_leaves << "\n";
+            file_1 << _address << "\n";
+
+            file >> _id;
+            file.ignore();
+            getline(file, _name);
+            file >> _age >> _phone_number;
+            file.ignore();
+            getline(file, _employee_designation);
+            file >> _salary >> _employee_leaves;
+            file.ignore();
+            getline(file, _address);
+        }
+
+        file.close();
+        file_1.close();
+
+        remove("EmployeesData.txt");
+        rename("promote.txt", "EmployeesData.txt");
+
+        // Show prompt that the data of the Manager is updated successfully
+        if (found == true)
+        {
+            cout << "\t The employee is promoted to a new designation " << endl;
+        }
+        else
+        {
+            cout << "\tEmployee ID not found." << endl;
+        }
+    }
+
+    bool Promotion_Approval()
+    {
+        register bool match;
+        string answer;
+
+    a:
+        cout << " Do you want to accept the promotion  (Yes or No)  ";
+        cin >> answer;
+        for (char i = 0; i < answer.length(); i++)
+        {
+            if (isdigit(answer[i]))
+            {
+                cout << endl;
+
+                cout << " Invalid input! Enter alphabets only. " << endl;
+                goto a;
+            }
+        }
+
+        if (answer == "Yes" || answer == "yes")
+        {
+            match = true;
+            return match;
+        }
+        else
+        {
+            match = false;
+            return match;
+        }
     }
 };
 #endif
