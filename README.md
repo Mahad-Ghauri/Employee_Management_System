@@ -1,4 +1,9 @@
 # Employee_Management_System___Cpp___(OOP)
- This is a file based Employee Management System built on C++ . It include the Admin , Managers and empliyee sign-Up and login to work completely 
+This Employee Management System is based on OOP of C++ .
 
-Also read the requirements of the username in order to proceed on Try This "Mahad Gh@uri " if its not working 
+It includes the following functionalities:
+Two Factor Authentication
+Add , Search , Show_all , Delete , Update , Promotion 
+Leave , Parking , Mark the Attendance 
+Sign-Up and Login 
+The password is shown in asttericks (*) in the while taking the input from the user 
