@@ -281,7 +281,7 @@ public:
         cout << "Search the data by entering the id : ";
         cin >> search_id;
 
-        register int found = false; // A flag variable
+        register bool found = false; // A flag variable
         fstream file;
         file.open("EmployeesData.txt", ios::in);
 
