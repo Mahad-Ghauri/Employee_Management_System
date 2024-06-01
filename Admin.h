@@ -236,13 +236,13 @@ public:
             Menu:
                 system("CLS");
                 Sleep(2000);
-                cout << "\t\t\t------------Choose from below----------- " << endl;
-                cout << "\t\t\t _______________________________________ " << endl;
-                cout << "\t\t\t|                                       |" << endl;
-                cout << "\t\t\t|      1--> Manager Managers            |" << endl;
-                cout << "\t\t\t|      2--> Manager Employees           |" << endl;
-                cout << "\t\t\t|      3--> Exit the program            |" << endl;
-                cout << "\t\t\t|_______________________________________|" << endl;
+                cout << "\t\t\t--------------Choose from below------------- " << endl;
+                cout << "\t\t\t ___________________________________________ " << endl;
+                cout << "\t\t\t|                                           |" << endl;
+                cout << "\t\t\t|      1--> Manage the  Managers            |" << endl;
+                cout << "\t\t\t|      2--> Manage the  Employees           |" << endl;
+                cout << "\t\t\t|      3--> Exit the program                |" << endl;
+                cout << "\t\t\t|___________________________________________|" << endl;
                 mainchoice = getch();
 
                 switch (mainchoice)
