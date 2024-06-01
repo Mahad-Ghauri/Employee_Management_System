@@ -509,11 +509,10 @@ public:
                 cout << "\n\t\t   |__________________________________________|" << endl;
                 choose = getch();
 
-
                 /*
-                
-                 All this is now not necessary because taking the input in getch() a biult-in function that is used 
-                
+
+                 All this is now not necessary because taking the input in getch() a biult-in function that is used
+
                 if (cin.fail())
                 {
                     cout << " \n";
@@ -535,8 +534,8 @@ public:
                     // Built-in function    This function to remove undesirable characters from the input buffer
                     cin.ignore(132, '\n');
                     cin >> choose;
-                } 
-                
+                }
+
                 */
 
                 system("CLS");
@@ -1135,6 +1134,10 @@ public:
 
     bool Manager_Login(string _user_id)
     {
+        string id , check_id , name;
+        bool found = false;
+        Parking obj;
+
     start: // start point will come here in case of logging out
         system("ClS");
         string username_1, pass_1, password, username;
@@ -1328,8 +1331,9 @@ public:
                 cout << "\t\t\t|       3--> To apply for leaves           |" << endl;
                 cout << "\t\t\t|       4--> To update your information    |" << endl;
                 cout << "\t\t\t|       5--> To See your attendance        |" << endl;
-                cout << "\t\t\t|       6--> To Apply for Promotion        |" << endl;
-                cout << "\t\t\t|       7--> To Go Back                    |" << endl;
+                cout << "\t\t\t|       6--> To Check-in and Check-out     |" << endl;
+                cout << "\t\t\t|       7--> To Apply for Promotion        |" << endl;
+                cout << "\t\t\t|       8--> To Go Back                    |" << endl;
                 cout << "\t\t\t|__________________________________________|" << endl;
 
                 subchoice = getch();
@@ -1363,11 +1367,108 @@ public:
                     break;
 
                 case '6':
-                    Manager_Applying_For_Promotion(Get_ID());
+                point:
+                    cout << "Enter the id of the employee: " << endl;
+                    cin >> id;
+                    cin.ignore();
+                    found = Match_Employee_ID(id);
+                    if (found)
+                    {
+                        cout << "Enter the name of the employee: " << endl;
+                        getline(cin, name);
+                        char option;
+
+                    point_a:
+                        cout << "Do you want to check in or check out? " << endl;
+                        cout << " __________________________________________ " << endl;
+                        cout << "|                                          |" << endl;
+                        cout << "|           1--> Check In                  |" << endl;
+                        cout << "|           2--> Check Out                 |" << endl;
+                        cout << "|__________________________________________|" << endl;
+                        option = getch();
+
+                        switch (option)
+                        {
+                        case '1':
+                        {
+                            ifstream check_existing("checkIn_info.txt");
+
+                            while (check_existing >> check_id)
+                            {
+                                string temp_name;
+                                getline(check_existing, temp_name); // Consume the newline character
+                                getline(check_existing, temp_name);
+                                if (check_id == id)
+                                {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            check_existing.close();
+                            if (found)
+                            {
+                                cout << " Manager is already parked." << endl;
+                                goto point;
+                            }
+                            else
+                            {
+                                obj.Allot_Spots(name, id);
+                                obj.Check_in();
+                                goto point;
+                            }
+                            break;
+                        }
+                        case '2':
+                        {
+                            ifstream check_existing("checkIn_info.txt");
+
+                            while (check_existing >> check_id)
+                            {
+                                string temp_name;
+                                getline(check_existing, temp_name); // Consume the newline character
+                                getline(check_existing, temp_name);
+                                if (check_id == id)
+                                {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            check_existing.close();
+                            if (found) // found  = 1  When 1 the condition is true
+                            {
+                                obj.Dismiss_Spots(id);
+                                obj.Check_out();
+                            }
+                            else
+                            {
+                                cout << "Manager not found." << endl;
+                                goto a;
+                            }
+                            break;
+                        }
+                        default:
+                        {
+                            cout << "Select a valid option. " << endl;
+                            goto point_a;
+                            break;
+                        }
+                        }
+                    }
+                    else
+                    {
+                        cout << " An employee with such ID donot exist in our system " << endl;
+                        goto a;
+                    }
+
                     goto point_b;
                     break;
 
                 case '7':
+                    Manager_Applying_For_Promotion(Get_ID());
+                    goto point_b;
+                    break;
+
+                case '8':
                     goto Menu;
                     break;
 
@@ -1522,7 +1623,6 @@ public:
             cout << "\tData of this id id not present";
         }*/
     }
-
 
     // Last day added member functions ( can have slight issues )
 
