@@ -41,7 +41,7 @@ protected:
     {
     a:
         int number;
-        cout << " Enter the total employees you have in your comapny ";
+        cout << "\n\n\t\tEnter the total employees you have in your comapny ";
         cin >> number;
         if (cin.fail())
         {
