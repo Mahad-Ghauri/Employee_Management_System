@@ -65,7 +65,7 @@ public:
             cout << "\tThe username must consist of more than six characters "
                  << "and consist of at-least one upper case one lowercase and one symbol. " << endl;
             cout << endl;
-            Sleep(2000);
+            Sleep(50000);
             goto point;
         }
         else if (username.length() >= 20 || !Is_Strong_Username(username))
@@ -73,7 +73,7 @@ public:
             cout << "\tThe username must consist of less than twenty characters "
                  << "and consist of at-least one upper case one lowercase and one symbol. " << endl;
             cout << endl;
-            Sleep(2000);
+            Sleep(5000);
             goto point;
         }
 
@@ -157,8 +157,13 @@ public:
         _otp = Generate_OTP();
         int _user_otp;
 
-        cout << " OTP: " << _otp << endl;
-        Sleep(2500);
+        cout << " ________________________  " << endl;
+        cout << "|                        | " << endl;
+        cout << "|   OTP " << _otp << "   |" << endl;
+        cout << "|________________________| " << endl;
+
+        // cout << "\n\n\t\tOTP: " << _otp << endl;
+        Sleep(4000);
         system("CLS"); // for making the otp disapppear after few seconds
 
     OTP:
