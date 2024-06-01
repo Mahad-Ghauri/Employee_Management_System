@@ -13,7 +13,7 @@ private:
 
     string _manager_designation;
     int _manager_leaves;
-    float _experience;
+    string _experience;
     int total_employees;
 
 public:
@@ -142,17 +142,10 @@ public:
 
         cin.ignore();
 
-    c:
         cout << " Manager Experience: ";
-        cin >> _experience;
-        if (cin.fail())
-        {
-            cout << " In valid Input! Enter numbers only " << endl;
-            goto c;
-        }
+        getline(cin, _experience);
 
     d:
-        cin.ignore();
         cout << " Manager address: ";
         getline(cin, _address);
         for (char i = 0; i < _address.length(); i++)
@@ -262,7 +255,10 @@ public:
         file >> _id;
         file.ignore();
         getline(file, _name);
-        file >> _age >> _experience >> _phone_number;
+        file >> _age;
+        file.ignore();
+        getline(file, _experience);
+        file >> _phone_number;
         file.ignore();
         getline(file, _manager_designation);
         file >> _salary >> _manager_leaves;
@@ -293,7 +289,10 @@ public:
             file >> _id;
             file.ignore();
             getline(file, _name);
-            file >> _age >> _experience >> _phone_number;
+            file >> _age;
+            file.ignore();
+            getline(file, _experience);
+            file >> _phone_number;
             file.ignore();
             getline(file, _manager_designation);
             file >> _salary >> _manager_leaves;
@@ -314,7 +313,6 @@ public:
 
         fstream file;
         file.open("ManagersData.txt", ios::in);
-
         // Faliure in opening of the file
         if (!file.is_open())
         {
@@ -325,13 +323,15 @@ public:
         file >> _id;
         file.ignore();
         getline(file, _name);
-        file >> _age >> _experience >> _phone_number;
+        file >> _age;
+        file.ignore();
+        getline(file, _experience);
+        file >> _phone_number;
         file.ignore();
         getline(file, _manager_designation);
         file >> _salary >> _manager_leaves;
         file.ignore();
         getline(file, _address);
-
         while (!file.eof())
         {
             if (search_id == _id)
@@ -360,7 +360,10 @@ public:
             file >> _id;
             file.ignore();
             getline(file, _name);
-            file >> _age >> _experience >> _phone_number;
+            file >> _age;
+            file.ignore();
+            getline(file, _experience);
+            file >> _phone_number;
             file.ignore();
             getline(file, _manager_designation);
             file >> _salary >> _manager_leaves;
@@ -402,7 +405,10 @@ public:
         file >> _id;
         file.ignore();
         getline(file, _name);
-        file >> _age >> _experience >> _phone_number;
+        file >> _age;
+        file.ignore();
+        getline(file, _experience);
+        file >> _phone_number;
         file.ignore();
         getline(file, _manager_designation);
         file >> _salary >> _manager_leaves;
@@ -432,7 +438,10 @@ public:
             file >> _id;
             file.ignore();
             getline(file, _name);
-            file >> _age >> _experience >> _phone_number;
+            file >> _age;
+            file.ignore();
+            getline(file, _experience);
+            file >> _phone_number;
             file.ignore();
             getline(file, _manager_designation);
             file >> _salary >> _manager_leaves;
@@ -485,7 +494,10 @@ public:
         file >> _id;
         file.ignore();
         getline(file, _name);
-        file >> _age >> _experience >> _phone_number;
+        file >> _age;
+        file.ignore();
+        getline(file, _experience);
+        file >> _phone_number;
         file.ignore();
         getline(file, _manager_designation);
         file >> _salary >> _manager_leaves;
@@ -589,7 +601,10 @@ public:
             file >> _id;
             file.ignore();
             getline(file, _name);
-            file >> _age >> _experience >> _phone_number;
+            file >> _age;
+            file.ignore();
+            getline(file, _experience);
+            file >> _phone_number;
             file.ignore();
             getline(file, _manager_designation);
             file >> _salary >> _manager_leaves;
@@ -844,7 +859,7 @@ public:
 
         // Reading from the file to take the id of the Manager and match whether a Manager with this id exists or not
         // Also to update the Manager leaves if their leave is accepted
-        while (file >> _id >> ws && getline(file, _name) >> _age >> _experience >> _phone_number >> ws && getline(file, _manager_designation) >> _salary >> _manager_leaves >> ws && getline(file, _address))
+        while (file >> _id >> ws && getline(file, _name) && file >> _age >> ws && getline(file, _experience) && file >> _phone_number >> ws && getline(file, _manager_designation) && file >> _salary >> _manager_leaves >> ws && getline(file, _address))
         {
             if (id == _id)
             {
@@ -1134,7 +1149,7 @@ public:
 
     bool Manager_Login(string _user_id)
     {
-        string id , check_id , name;
+        string id, check_id, name;
         bool found = false;
         Parking obj;
 
@@ -1378,7 +1393,7 @@ public:
                         getline(cin, name);
                         char option;
 
-                    point_a:
+                    point_c:
                         cout << "Do you want to check in or check out? " << endl;
                         cout << " __________________________________________ " << endl;
                         cout << "|                                          |" << endl;
@@ -1449,7 +1464,7 @@ public:
                         default:
                         {
                             cout << "Select a valid option. " << endl;
-                            goto point_a;
+                            goto point_c;
                             break;
                         }
                         }
@@ -1570,13 +1585,15 @@ public:
         file >> _id;
         file.ignore();
         getline(file, _name);
-        file >> _age >> _experience >> _phone_number;
+        file >> _age;
+        file.ignore();
+        getline(file, _experience);
+        file >> _phone_number;
         file.ignore();
         getline(file, _manager_designation);
         file >> _salary >> _manager_leaves;
         file.ignore();
         getline(file, _address);
-
         while (!file.eof())
         {
             if (_manager_id == _id)
@@ -1606,7 +1623,10 @@ public:
             file >> _id;
             file.ignore();
             getline(file, _name);
-            file >> _age >> _experience >> _phone_number;
+            file >> _age;
+            file.ignore();
+            getline(file, _experience);
+            file >> _phone_number;
             file.ignore();
             getline(file, _manager_designation);
             file >> _salary >> _manager_leaves;
@@ -1652,15 +1672,18 @@ public:
             return;
         }
 
-        file >> _id;
-        file.ignore();
-        getline(file, _name);
-        file >> _age >> _experience >> _phone_number;
-        file.ignore();
-        getline(file, _manager_designation);
-        file >> _salary >> _manager_leaves;
-        file.ignore();
-        getline(file, _address);
+            file >> _id;
+            file.ignore();
+            getline(file, _name);
+            file >> _age;
+            file.ignore();
+            getline(file, _experience);
+            file >> _phone_number;
+            file.ignore();
+            getline(file, _manager_designation);
+            file >> _salary >> _manager_leaves;
+            file.ignore();
+            getline(file, _address);
 
         while (!file.eof())
         {
@@ -1787,7 +1810,10 @@ public:
             file >> _id;
             file.ignore();
             getline(file, _name);
-            file >> _age >> _experience >> _phone_number;
+            file >> _age;
+            file.ignore();
+            getline(file, _experience);
+            file >> _phone_number;
             file.ignore();
             getline(file, _manager_designation);
             file >> _salary >> _manager_leaves;
@@ -1820,4 +1846,4 @@ public:
      }
     */
 };
-#endif
+#endif s
