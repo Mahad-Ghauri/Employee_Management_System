@@ -18,7 +18,7 @@ protected:
     string _id;
     int _salary;
     int _age;
-    int _phone_number;
+    long long int _phone_number;
 
     Person()
     {
@@ -41,7 +41,7 @@ protected:
     {
     a:
         int number;
-        cout << "\n\n\t\tEnter the total employees you have in your comapny ";
+        cout << "\n\n\t\tEnter the total employees you have in your company ";
         cin >> number;
         if (cin.fail())
         {

@@ -50,22 +50,26 @@ public:
 
     void Admin_Sign_Up()
     {
+        ifstream check_existingID("AdminUserPass.txt");
         string _enter_id;
+        string existingID;
         register bool match;
+        register bool found = false;
 
     point: // point declared here will come here if username requirements not met
         system("CLS");
         string username, password;
-        cout << "\n\n\t\tEmployee Managment System : " << endl;
+        cout << "\n\n\t\tEmployee Management System : " << endl;
         cout << "\n\n\t\tPlease SIGN UP by adding username and password " << endl;
         cout << "\n\n\t\tEnter Username :  ";
         getline(cin, username);
+
         if (username.length() <= 6 || !Is_Strong_Username(username))
         {
             cout << "\tThe username must consist of more than six characters "
                  << "and consist of at-least one upper case one lowercase and one symbol. " << endl;
             cout << endl;
-            Sleep(50000);
+            Sleep(5000);
             goto point;
         }
         else if (username.length() >= 20 || !Is_Strong_Username(username))
@@ -78,7 +82,7 @@ public:
         }
 
         cout << "\n\n\t\tPassword : ";
-        char pass; // Password is taken in char thats make it easy to convert it into assteterics
+        char pass; // Password is taken in char thats make it easy to convert it into asterik
 
         while ((pass = _getch()) != '\r') // loop will execute for each character until enter is pressed
         {
@@ -99,24 +103,47 @@ public:
             Sleep(2000);
             goto point;
         }
-
-        fstream file;
-        file.open("AdminUserPass.txt", ios::out | ios::app);
-        if (!file.is_open())
-        {
-            cout << "\tError opening file.";
+        while (check_existingID >> existingID)
+        { // this part checks if admin username already exists
+            if (existingID == username)
+            {
+                found = true;
+                break;
+            }
         }
-
-        file << username << "\n";
-        file << password << "\n";
-        file.close();
-        cout << "\n\n\t\tYour ID is being created.Please Wait ";
-        for (int i = 0; i < 4; i++) // used to make a delay on the screen
+        check_existingID.close();
+        if (found)
         {
-            cout << ".";
-            Sleep(1000);
+            cout << endl;
+            cout << setw(80) << " =================================" << endl;
+            cout << setw(80) << "| ID already exists.              |" << endl;
+            cout << setw(80) << "| Redirecting to login page.....  |" << endl;
+            cout << setw(80) << " =================================" << endl;
+            Sleep(4000);
+            system("CLS");
+            Admin_Login();
         }
-        cout << "\n\n\t\tYour ID HAS BEEN CREATED ";
+        else
+        {
+
+            fstream file;
+            file.open("AdminUserPass.txt", ios::out | ios::app);
+            if (!file.is_open())
+            {
+                cout << "\tError opening file.";
+            }
+
+            file << username << "\n";
+            file << password << "\n";
+            file.close();
+            cout << "\n\n\t\tYour ID is being created.Please Wait ";
+            for (int i = 0; i < 4; i++) // used to make a delay on the screen
+            {
+                cout << ".";
+                Sleep(1000);
+            }
+            cout << "\n\n\t\tYour ID HAS BEEN CREATED ";
+        }
         Admin_Login(); // login function called.
     }
 
@@ -132,6 +159,7 @@ public:
         cout << "\t\t\t===============================================================" << endl;
 
         cout << "\n\n\t\tPlease Login by entering username and password " << endl;
+
         cout << "\n\n\t\tEnter Username:  ";
         getline(cin, username_1);
         cout << "\n\n\t\tPassword: ";
@@ -157,15 +185,13 @@ public:
         _otp = Generate_OTP();
         int _user_otp;
 
-        cout << " ________________________  " << endl;
-        cout << "|                        | " << endl;
-        cout << "|   OTP " << _otp << "   |" << endl;
-        cout << "|________________________| " << endl;
+        cout << " ________________________ " << endl;
+        cout << "|                        |" << endl;
+        cout << "|   OTP " << _otp << "          |" << endl;
+        cout << "|________________________|" << endl;
 
-        // cout << "\n\n\t\tOTP: " << _otp << endl;
-        Sleep(4000);
-        system("CLS"); // for making the otp disapppear after few seconds
-
+        Sleep(5000);
+        system("CLS"); // for making the otp disappear after few seconds
     OTP:
         cout << " Enter the OTP: ";
         cin >> _user_otp;
@@ -175,7 +201,7 @@ public:
             goto OTP;
         }
 
-        cout << " Checking for the authntication";
+        cout << " Checking for the authentication";
         for (int i = 0; i < 4; i++)
         {
             cout << ".";
@@ -186,12 +212,12 @@ public:
 
         if (_otp == _user_otp)
         {
-            cout << "\t\t\t    ______________________________________ " << endl;
+            cout << "\t\t\t    ______________________________________" << endl;
             cout << "\t\t\t   |                                      |" << endl;
             cout << "\t\t\t   |       Authentication Successful      |" << endl;
             cout << "\t\t\t   |______________________________________|" << endl;
 
-            Sleep(3000);
+            Sleep(1000);
             system("CLS");
 
             ifstream file;
@@ -221,7 +247,7 @@ public:
                 cout << "\t\t\t                       Welcome  Admin                          " << endl;
                 cout << "\t\t\t===============================================================" << endl;
                 cout << "\n";
-                Sleep(3000);
+                Sleep(2000);
             }
 
             if (match == true)
@@ -235,14 +261,14 @@ public:
 
             Menu:
                 system("CLS");
-                Sleep(2000);
-                cout << "\t\t\t--------------Choose from below------------- " << endl;
-                cout << "\t\t\t ___________________________________________ " << endl;
-                cout << "\t\t\t|                                           |" << endl;
-                cout << "\t\t\t|      1--> Manage the  Managers            |" << endl;
-                cout << "\t\t\t|      2--> Manage the  Employees           |" << endl;
-                cout << "\t\t\t|      3--> Exit the program                |" << endl;
-                cout << "\t\t\t|___________________________________________|" << endl;
+                // Sleep(2000);
+                cout << "\t\t\t------------Choose from below----------- " << endl;
+                cout << "\t\t\t _______________________________________" << endl;
+                cout << "\t\t\t|                                       |" << endl;
+                cout << "\t\t\t|      1--> Manage Managers             |" << endl;
+                cout << "\t\t\t|      2--> Manage Employees            |" << endl;
+                cout << "\t\t\t|      3--> Exit the program            |" << endl;
+                cout << "\t\t\t|_______________________________________|" << endl;
                 mainchoice = getch();
 
                 switch (mainchoice)
@@ -251,9 +277,9 @@ public:
 
                 point_a:
                     system("CLS");
-                    Sleep(2000);
+                    // Sleep(2000);
                     cout << "\t\t\t------------Choose from below----------- " << endl;
-                    cout << "\t\t\t _______________________________________ " << endl;
+                    cout << "\t\t\t _______________________________________" << endl;
                     cout << "\t\t\t|                                       |" << endl;
                     cout << "\t\t\t|      1--> Number of managers          |" << endl;
                     cout << "\t\t\t|      2--> Add Managers                |" << endl;
@@ -361,7 +387,7 @@ public:
                     Sleep(2000);
 
                     cout << "\t\t\t------------Choose from below----------- " << endl;
-                    cout << "\t\t\t _______________________________________ " << endl;
+                    cout << "\t\t\t _______________________________________" << endl;
                     cout << "\t\t\t|                                       |" << endl;
                     cout << "\t\t\t|      1--> Number of employees         |" << endl;
                     cout << "\t\t\t|      2--> Add Employee                |" << endl;
@@ -465,11 +491,12 @@ public:
         }
         else
         {
-            cout << "\t\t\t    ______________________________________ " << endl;
+            cout << "\t\t\t    ______________________________________" << endl;
             cout << "\t\t\t   |                                      |" << endl;
             cout << "\t\t\t   |     Authentication Unsuccessful      |" << endl;
             cout << "\t\t\t   |______________________________________|" << endl;
             cout << "The login failed. Please try again." << endl;
+            cin.ignore();
             Sleep(3000);
             goto start;
         }
@@ -599,7 +626,7 @@ public:
     {
         srand(time(0));
 
-        return rand() % 900000 + 1000000;
+        return rand() % 9000 + 10000;
     }
 
     // Manager's
@@ -608,7 +635,7 @@ public:
     {
     a:
         int number;
-        cout << "\n\n\t\t Enter the total manager you have in your comapny ";
+        cout << "\n\n\t\t Enter the total manager you have in your company ";
         cin >> number;
         if (cin.fail())
         {

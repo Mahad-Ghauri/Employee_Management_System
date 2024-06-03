@@ -92,9 +92,9 @@ public:
         cin >> _id;
 
         // Checking whether an Manager with the eneterd id exits or nott
+        // If the file does not exist, we can skip this check
         if (!file)
         {
-            // If the file does not exist, we can skip this check
             file.clear();
         }
         else
@@ -145,10 +145,14 @@ public:
         cout << " Manager Experience: ";
         getline(cin, _experience);
 
-    d:
+        /* No validation because the experience can be 3.5 months / 5 years  it can include int and string both */
+
+        // d:
+
         cout << " Manager address: ";
         getline(cin, _address);
-        for (char i = 0; i < _address.length(); i++)
+
+        /*for (char i = 0; i < _address.length(); i++)
         {
             if (isdigit(_address[i]))
             {
@@ -158,6 +162,11 @@ public:
                 goto d;
             }
         }
+
+        There is no validation for address because it can contain the house-number , street-number and
+        also the zip code of the city based upon the user input
+
+        */
 
     e:
         cout << " Manager phone number ";
@@ -237,7 +246,7 @@ public:
 
         cout << " Manager added successfully! " << endl;
         _manager_count++;
-        _manager_count++;
+        _manager_number++;
     }
 
     void Show_All_Managers_Data()
@@ -285,7 +294,7 @@ public:
             cout << "\t\t ||                                                                     ||";
             cout << "\n\t\t *************************************************************************" << endl;
             cout << "\n";
-
+            Sleep(2000);
             file >> _id;
             file.ignore();
             getline(file, _name);
@@ -354,6 +363,7 @@ public:
                 cout << "\n\t\t *************************************************************************" << endl;
                 cout << "\n";
                 found = true; // To check whether the id of the Manager is found or not
+                Sleep(5000);
                 break;
             }
 
@@ -376,6 +386,7 @@ public:
         if (found == false)
         {
             cout << "\tData of this id id not present";
+            Sleep(5000);
         }
     }
 
@@ -462,6 +473,7 @@ public:
         {
             _manager_count--;
             cout << "\tData Deleted Successfully." << endl;
+            Sleep(5000);
         }
     }
 
@@ -522,8 +534,9 @@ public:
                 choose = getch();
 
                 /*
+                All this is now not necessary because taking the input in getch() a built-in function that is used to take character only
+                the user is unable to write  56 as in  ' int ' data_type
 
-                 All this is now not necessary because taking the input in getch() a biult-in function that is used
 
                 if (cin.fail())
                 {
@@ -554,30 +567,72 @@ public:
                 switch (choose)
                 {
                 case '1':
+                a:
                     cout << "\tEnter the new designation: ";
                     cin.ignore();
                     getline(cin, _manager_designation);
+                    for (char i = 0; i < _manager_designation.length(); i++)
+                    {
+                        if (isdigit(_manager_designation[i]))
+                        {
+                            cout << " Invalid Input!!! . Enter alphabets only " << endl;
+                            goto a;
+                        }
+                    }
+
                     break;
 
                 case '2':
                     cout << "\n\tEnter the new address: ";
                     cin.ignore();
                     getline(cin, _address);
+
+                    /*   There is no validation for address because it can contain the house-number , street-number and
+                    also the zip code of the city based upon the user input */
+
                     break;
 
                 case '3':
+                b:
                     cout << "\n\tEnter the new phone number: ";
                     cin >> _phone_number;
+                    if (cin.fail())
+                    {
+                        cout << " Invalid Input!!! Enter integers only " << endl;
+                        goto b;
+                    }
+
                     break;
 
                 case '4':
+                c:
                     cout << "\n\tEnter the new salary: ";
                     cin >> _salary;
+                    if (cin.fail())
+                    {
+                        cout << " Invlid Input!!!  Enter integers only " << endl;
+                        goto c;
+                    }
+
+                    // Non negative and non zero salary vaidation
+                    if (_salary <= 0)
+                    {
+                        cout << " The salary must be non-negative and greater than zero " << endl;
+                        goto c;
+                    }
+
                     break;
 
                 case '5':
+                d:
                     cout << "\n\tEnter the new total leaves: ";
                     cin >> _manager_leaves;
+                    if (cin.fail())
+                    {
+                        cout << " Invalid Input!!! Enter integers only " << endl;
+                        goto d;
+                    }
+
                     break;
 
                 default:
@@ -622,10 +677,12 @@ public:
         if (found == true)
         {
             cout << "\tData Updated Successfully." << endl;
+            Sleep(5000);
         }
         else
         {
             cout << "\tManager ID not found." << endl;
+            Sleep(5000);
         }
     }
 
@@ -1063,7 +1120,7 @@ public:
         cout << " Enter your manager ID to sign-up ";
         cin >> _enter_id;
 
-        cin.ignore();
+        // cin.ignore();
 
         match = Match_Manager_ID(_enter_id);
 
@@ -1472,6 +1529,7 @@ public:
                     else
                     {
                         cout << " An employee with such ID donot exist in our system " << endl;
+                        Sleep(2000);
                         goto a;
                     }
 
@@ -1617,6 +1675,7 @@ public:
                 cout << "\n\t\t *************************************************************************" << endl;
                 cout << "\n";
                 // found = true; // To check whether the id of the Manager is found or not
+                Sleep(2000);
                 break;
             }
 
@@ -1672,18 +1731,18 @@ public:
             return;
         }
 
-            file >> _id;
-            file.ignore();
-            getline(file, _name);
-            file >> _age;
-            file.ignore();
-            getline(file, _experience);
-            file >> _phone_number;
-            file.ignore();
-            getline(file, _manager_designation);
-            file >> _salary >> _manager_leaves;
-            file.ignore();
-            getline(file, _address);
+        file >> _id;
+        file.ignore();
+        getline(file, _name);
+        file >> _age;
+        file.ignore();
+        getline(file, _experience);
+        file >> _phone_number;
+        file.ignore();
+        getline(file, _manager_designation);
+        file >> _salary >> _manager_leaves;
+        file.ignore();
+        getline(file, _address);
 
         while (!file.eof())
         {
@@ -1846,4 +1905,4 @@ public:
      }
     */
 };
-#endif s
+#endif

@@ -62,9 +62,9 @@ public:
         cin >> _id;
 
         // Checking whether an employee with the eneterd id exits or not
+        // If the file does not exist, we can skip this check
         if (!file)
         {
-            // If the file does not exist, we can skip this check
             file.clear();
         }
         else
@@ -76,6 +76,7 @@ public:
                 if (id == _id)
                 {
                     cout << " An employee with this id already exists " << endl;
+                    Sleep(1000);
                     file.close();
                     goto start;
                 }
@@ -110,10 +111,12 @@ public:
 
         cin.ignore();
 
-    c:
+        // c:
+
         cout << " Employee address: ";
         getline(cin, _address);
-        for (char i = 0; i < _address.length(); i++)
+
+        /* for (char i = 0; i < _address.length(); i++)
         {
             if (isdigit(_address[i]))
             {
@@ -124,17 +127,20 @@ public:
             }
         }
 
+         There is no validation for address because it can contain the house-number , street-number and
+        also the zip code of the city based upon the user input
+
+        */
+
     d:
         cout << " Employee phone number ";
         cin >> _phone_number;
         if (cin.fail())
         {
-            cout << endl;
-
-            cout << " Invlaid input!. Enter integers only " << endl;
+            cout << " Invalid Input !!! . Enter  integers only " << endl;
             goto d;
         }
-
+        
         cin.ignore();
 
     e:
@@ -258,7 +264,7 @@ public:
             cout << "\t\t ||                                                                     ||";
             cout << "\n\t\t *************************************************************************" << endl;
             cout << "\n";
-
+            Sleep(2000);
             file >> _id;
             file.ignore();
             getline(file, _name);
@@ -323,6 +329,7 @@ public:
                 cout << "\n\t\t *************************************************************************" << endl;
                 cout << "\n";
                 found = true; // To check whether the id of the employee is found or not
+                Sleep(2000);
                 break;
             }
 
@@ -416,11 +423,13 @@ public:
         if (found == false)
         {
             cout << "\tTheir is no data of any employee with this id " << endl;
+            Sleep(2000);
         }
         else
         {
             _employee_count--;
             cout << "\tData Deleted Successfully." << endl;
+            Sleep(2000);
         }
     }
 
@@ -482,30 +491,74 @@ public:
                 switch (choose)
                 {
                 case '1':
+                a:
                     cout << "\tEnter the new designation: ";
                     cin.ignore();
                     getline(cin, _employee_designation);
+                    for (char i = 0; i < _employee_designation.length(); i++)
+                    {
+                        if (isdigit(_employee_designation[i]))
+                        {
+                            cout << endl;
+
+                            cout << " Invalid input! Enter alphabets only. " << endl;
+                            goto a;
+                        }
+                    }
+
                     break;
 
                 case '2':
                     cout << "\n\tEnter the new address: ";
                     cin.ignore();
                     getline(cin, _address);
+
+                    /* There is no validation for address because it can contain the house-number , street-number and
+                    also the zip code of the city based upon the user input */
+
                     break;
 
                 case '3':
+                c:
                     cout << "\n\tEnter the new phone number: ";
                     cin >> _phone_number;
+                    if (cin.fail())
+                    {
+                        cout << " Invalid input. Enter integers only " << endl;
+                        goto c;
+                    }
+
                     break;
 
                 case '4':
+                d:
                     cout << "\n\tEnter the new salary: ";
                     cin >> _salary;
+                    if (cin.fail())
+                    {
+                        cout << " Invlid Input!!!  Enter integers only " << endl;
+                        goto d;
+                    }
+
+                    // Non negative and non zero salary vaidation
+                    if (_salary <= 0)
+                    {
+                        cout << " The salary must be non-negative and greater than zero " << endl;
+                        goto d;
+                    }
+
                     break;
 
                 case '5':
+                e:
                     cout << "\n\tEnter the new total leaves: ";
                     cin >> _employee_leaves;
+                    if (cin.fail())
+                    {
+                        cout << " Invalid Input!!! . Enter integer only " << endl;
+                        goto e;
+                    }
+
                     break;
 
                 default:
@@ -546,10 +599,12 @@ public:
         if (found == true)
         {
             cout << "\tData Updated Successfully." << endl;
+            Sleep(2000);
         }
         else
         {
             cout << "\tEmployee ID not found." << endl;
+            Sleep(2000);
         }
     }
 
@@ -785,6 +840,7 @@ public:
         // Reading from the file to take the id of the employee and match whether an employee with this id exists or not
         // Also to update the employee leaves if their leave is accepted
         // The  'ws'     is used to skip any leading whitespace character in the input stream
+
         while (file >> _id >> ws && getline(file, _name) >> _age >> _phone_number >> ws && getline(file, _employee_designation) >> _salary >> _employee_leaves >> ws && getline(file, _address))
         {
             if (id == _id)
@@ -885,10 +941,12 @@ public:
         if (found)
         {
             cout << "\tThanks for applying for the leave." << endl;
+            Sleep(2000);
         }
         else
         {
             cout << "\tEmployee ID not found." << endl;
+            Sleep(2000);
         }
     }
 
@@ -920,10 +978,12 @@ public:
             file.close();
 
             cout << " Your Attendance has been marked! " << endl;
+            Sleep(2000);
         }
         else
         {
             cout << " Such an ID donot exist in your system " << endl;
+            Sleep(2000);
         }
     }
 
@@ -1225,6 +1285,7 @@ public:
                         if (found)
                         {
                             cout << " Employee is already parked." << endl;
+                            Sleep(2000);
                             goto point;
                         }
                         else
@@ -1260,6 +1321,7 @@ public:
                         else
                         {
                             cout << "Employee not found." << endl;
+                            Sleep(2000);
                             goto a;
                         }
                         break;
@@ -1267,6 +1329,7 @@ public:
                     default:
                     {
                         cout << "Select a valid option. " << endl;
+                        Sleep(2000);
                         goto point_b;
                         break;
                     }
@@ -1285,8 +1348,6 @@ public:
                 Employee_Applying_For_Promotion(Get_ID());
                 goto a;
                 break;
-
-
 
             case '8':
                 return true;
@@ -1358,6 +1419,7 @@ public:
         if (found == false)
         {
             cout << "\tData of this id id not present";
+            Sleep(2000);
             return false;
         }
     }
@@ -1407,6 +1469,7 @@ public:
                 cout << "\n\t\t *************************************************************************" << endl;
                 cout << "\n";
                 // found = true; // To check whether the id of the employee is found or not
+                Sleep(2000);
                 break;
             }
             file >> _id;
@@ -1637,10 +1700,12 @@ public:
         if (found == true)
         {
             cout << "\t The employee is promoted to a new designation " << endl;
+            Sleep(2000);
         }
         else
         {
             cout << "\tEmployee ID not found." << endl;
+            Sleep(2000);
         }
     }
 
@@ -1652,6 +1717,7 @@ public:
     a:
         cout << " Do you want to accept the promotion  (Yes or No)  ";
         cin >> answer;
+
         for (char i = 0; i < answer.length(); i++)
         {
             if (isdigit(answer[i]))
