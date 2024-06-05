@@ -185,10 +185,10 @@ public:
         _otp = Generate_OTP();
         int _user_otp;
 
-        cout << " ________________________ " << endl;
-        cout << "|                        |" << endl;
-        cout << "|   OTP " << _otp << "          |" << endl;
-        cout << "|________________________|" << endl;
+        cout << "\n\t\t ________________________ " << endl;
+        cout << "\t\t|                        |" << endl;
+        cout << "\t\t|   OTP " << _otp << "          |" << endl;
+        cout << "\t\t|________________________|" << endl;
 
         Sleep(5000);
         system("CLS"); // for making the otp disappear after few seconds
@@ -197,11 +197,11 @@ public:
         cin >> _user_otp;
         if (cin.fail())
         {
-            cout << " Invalid  Input!!! . Enter integers only " << endl;
+            cout << "\t\tInvalid  Input!!! . Enter integers only " << endl;
             goto OTP;
         }
 
-        cout << " Checking for the authentication";
+        cout << "\n\t\t Checking for the authentication";
         for (int i = 0; i < 4; i++)
         {
             cout << ".";
@@ -212,7 +212,7 @@ public:
 
         if (_otp == _user_otp)
         {
-            cout << "\t\t\t    ______________________________________" << endl;
+            cout << "\t\t\t    ______________________________________ " << endl;
             cout << "\t\t\t   |                                      |" << endl;
             cout << "\t\t\t   |       Authentication Successful      |" << endl;
             cout << "\t\t\t   |______________________________________|" << endl;
@@ -224,7 +224,7 @@ public:
             file.open("AdminUserPass.txt");
             if (!file.is_open())
             {
-                cout << "\t Error opening file ";
+                cout << "\t\tError opening file ";
             }
 
             while (getline(file, username) && file >> password) // reading until the data in the file is finished
@@ -304,9 +304,9 @@ public:
                         }
                         else
                         {
-                            cout << " You have entered greater number of managers than ";
+                            cout << "\t You have entered greater number of managers than ";
                             cout << "the total number of manager " << endl;
-                            cout << " Total Number of Managers: " << Get_Total_Number_Of_Managers() << endl;
+                            cout << "\t\tTotal Number of Managers: " << Get_Total_Number_Of_Managers() << endl;
                             goto a;
                         }
                         break;
@@ -318,9 +318,9 @@ public:
                         }
                         else
                         {
-                            cout << " Manager Count: " << Get_Manger_Count() << endl;
-                            cout << " Total Number of Managers: " << Get_Total_Number_Of_Managers() << endl;
-                            cout << " Maximum number of managers are added " << endl;
+                            cout << "\t\tManager Count: " << Get_Manger_Count() << endl;
+                            cout << "\t\tTotal Number of Managers: " << Get_Total_Number_Of_Managers() << endl;
+                            cout << "\t\tMaximum number of managers are added " << endl;
                             goto start;
                         }
                         goto point_a;
@@ -412,9 +412,9 @@ public:
                         }
                         else
                         {
-                            cout << " You have greater number of employees than ";
+                            cout << "\t You have greater number of employees than ";
                             cout << "the total number of employees " << endl;
-                            cout << " Total Number of Employees: " << Get_Total_Employees() << endl;
+                            cout << "\t\t Total Number of Employees: " << Get_Total_Employees() << endl;
                             goto b;
                         }
                         break;
@@ -427,9 +427,9 @@ public:
                         }
                         else
                         {
-                            cout << " Employee Count: " << Get_Employee_Count() << endl;
-                            cout << " Total Number of Employees: " << Get_Total_Employees() << endl;
-                            cout << " Maximum number of employees are added " << endl;
+                            cout << "\t\t Employee Count: " << Get_Employee_Count() << endl;
+                            cout << "\t\tTotal Number of Employees: " << Get_Total_Employees() << endl;
+                            cout << "\t\tMaximum number of employees are added " << endl;
                             goto start;
                         }
                         goto point_b;
@@ -477,7 +477,7 @@ public:
                         break;
 
                     default:
-                        cout << " Invalid choice ";
+                        cout << "\t\tInvalid choice ";
                         for (int i = 0; i < 3; i++)
                         {
                             cout << "!";
@@ -537,7 +537,8 @@ public:
 
         while (getline(file, username_1) && file >> password_1)
         {
-            file.ignore(1000, '\n');
+            file.ignore(1000, '\n');  // Ignore the rest of the line. Such as the password followed by whitespaces and special characters
+
             if (username == username_1 && password != password_1)
             {
                 match = true;
@@ -574,16 +575,16 @@ public:
             cout << "\n\n\t\tEnter the new password: ";
             char pass;
             password.clear();
-            while ((pass = _getch()) != '\r') // loop will execute for each character until enter is pressed
+            while ((pass = _getch()) != '\r') // Loop will execute for each character until enter is pressed
             {
-                if (pass >= 32 && pass <= 126)
+                if (pass >= 32 && pass <= 126) // Check for ASCII character and if it is an ASCII character than pushbacks the character into the password string
                 {
                     cout << '*';
-                    password.push_back(pass); // will add new character.
+                    password.push_back(pass); // will add new character if the entered character is ASCII character .
                 }
-                else if (pass == 8 && password.length() > 0) // dealing with if backspace is pressed
+                else if (pass == 8 && password.length() > 0) // dealing with if backspace is pressed. The ASCII value of the backspace is 8
                 {
-                    password.pop_back(); // will remove last character
+                    password.pop_back(); // will remove last character it will seem as backspace is pressed 
                     cout << "\b \b";
                 }
             }

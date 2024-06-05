@@ -53,19 +53,19 @@ public:
         ofstream checking_in("checkIn_info.txt", ios::app);
         if (!checking_in.is_open())
         {
-            cout << "Error opening file!" << endl;
+            cout << "\n\n\t\tError opening file!" << endl;
             return;
         }
 
-        cout << "\nNumber of parked employees: " << spots << endl;
+        cout << "\n\n\t\tNumber of parked employees: " << spots << endl;
         for (int i = 0; i < spots; i++)
         {
-            cout << " _____________________________________________________" << endl;
-            cout << "|                                                     |" << endl;
-            cout << "| Employee with id:  " << setw(20) << left << employee_id[i] << "             |" << endl;
-            cout << "| Name            :  " << setw(20) << left << name[i] << "             |" << endl;
-            cout << "| Checked in at   :  " << setw(24) << left << ctime(&parking_Time[i]) << "|" << endl;
-            cout << "|_____________________________________________________|" << endl;
+            cout << "\n\n\t\t _____________________________________________________" << endl;
+            cout << "\t\t|                                                     |" << endl;
+            cout << "\t\t| Employee with id:  " << setw(20) << left << employee_id[i] << "             |" << endl;
+            cout << "\t\t| Name            :  " << setw(20) << left << name[i] << "             |" << endl;
+            cout << "\t\t| Checked in at   :  " << setw(24) << left << ctime(&parking_Time[i]) << "|" << endl;
+            cout << "\t\t|_____________________________________________________|" << endl;
             checking_in << employee_id[i] << endl
                         << name[i] << endl;
         }

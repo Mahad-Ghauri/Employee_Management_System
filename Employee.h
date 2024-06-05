@@ -45,20 +45,20 @@ public:
         string id;
         ifstream file;
         file.open("EmployeesData.txt");
-        // if (!file.is_open())
-        // {
-        //     cout << " Error opening the file " << endl;
-        //     return;
-        // }
+        /*if (!file.is_open())    This condition will be automatically executed  cauz  opening the file for first time befor it is even created
+        {
+            cout << " Error opening the file " << endl;
+            return;
+        }*/
 
         cout << " \n ";
 
-        cout << " Enter the following information of the employee " << endl;
+        cout << "\t    Enter the following information of the employee " << endl;
 
         cout << endl;
 
     start:
-        cout << " Enter the employee ID ";
+        cout << "\tEnter the employee ID ";
         cin >> _id;
 
         // Checking whether an employee with the eneterd id exits or not
@@ -85,7 +85,7 @@ public:
         }
         cin.ignore();
     a:
-        cout << " Employee name: ";
+        cout << "\tEmployee name: ";
         getline(cin, _name);
         for (char i = 0; i < _name.length(); i++)
         {
@@ -99,7 +99,7 @@ public:
         }
 
     b:
-        cout << " Employee age: ";
+        cout << "\tEmployee age: ";
         cin >> _age;
         if (cin.fail())
         {
@@ -113,7 +113,7 @@ public:
 
         // c:
 
-        cout << " Employee address: ";
+        cout << "\tEmployee address: ";
         getline(cin, _address);
 
         /* for (char i = 0; i < _address.length(); i++)
@@ -133,15 +133,48 @@ public:
         */
 
     d:
-        cout << " Employee phone number ";
+        cout << "\tEmployee phone number ";
         cin >> _phone_number;
         if (cin.fail())
         {
-            cout << " Invalid Input !!! . Enter  integers only " << endl;
+            cout << "\t\tInvalid Input !!! . Enter  integers only " << endl;
             goto d;
         }
-        
-        cin.ignore();
+
+        while (_phone_number < 0)
+        {
+            cout << "==================================" << endl;
+            cout << "Phone number cannot be negative." << endl;
+            cout << "==================================" << endl;
+            cin >> _phone_number;
+        }
+
+        /*
+        int count = 0;
+        while (_phone_number != 0)
+        {
+         _phone_number = _phone_number / 10;
+         ++count;
+        }
+
+        while (count != 11 || _phone_number < 0)
+        {
+            cout << "=============================================================" << endl;
+            cout << "Phone number must have 11 digits only and cannot be negative." << endl;
+            cout << "=============================================================" << endl;
+            cin >> _phone_number;
+        }
+
+        string num = to_string(_phone_number);
+        while (num.size() != 11 || _phone_number < 0)
+        {
+        cout << "=============================================================" << endl;
+        cout << "Phone number must have 11 digits only and cannot be negative." << endl;
+        cout << "=============================================================" << endl;
+        cin >> _phone_number;
+        } */
+
+        // cin.ignore();
 
     e:
 
@@ -194,7 +227,7 @@ public:
             break;
 
         default:
-            cout << " Invalid choice!!! . Please enter again " << endl;
+            cout << "\t\tInvalid choice!!! . Please enter again " << endl;
             goto e;
             break;
         }
@@ -204,7 +237,7 @@ public:
         file_write.open("EmployeesData.txt", ios::out | ios::app);
         if (!file_write.is_open())
         {
-            cout << " Error opening the file " << endl;
+            cout << "\t\tError opening the file " << endl;
             return;
         }
         file_write << _id << "\n";
@@ -218,7 +251,7 @@ public:
 
         file_write.close();
 
-        cout << " Employee added successfully! " << endl;
+        cout << "\tEmployee added successfully! " << endl;
         _employee_count++;
         _employee_number++;
     }
@@ -245,7 +278,7 @@ public:
         file.ignore();
         getline(file, _address);
 
-        while (!file.eof()) // Check if the end of file is reached
+        while (!file.eof()) // The loop will itrate from the beigning  to the the end of the file
         {
             cout << "\n";
             cout << "\n\t\t *************************************************************************" << endl;
@@ -264,7 +297,9 @@ public:
             cout << "\t\t ||                                                                     ||";
             cout << "\n\t\t *************************************************************************" << endl;
             cout << "\n";
-            Sleep(2000);
+
+            Sleep(1000);
+
             file >> _id;
             file.ignore();
             getline(file, _name);
@@ -446,14 +481,14 @@ public:
         file.open("EmployeesData.txt", ios::in);
         if (!file.is_open())
         {
-            cout << " Employee file " << endl;
+            // cout << " Employee file " << endl; For debugging the filing error in the code
             cout << "\tError opening file.";
             return;
         }
         file_1.open("Promote.txt", ios::out);
         if (!file_1.is_open())
         {
-            cout << " New file " << endl;
+            // cout << "New file " << endl;  wrote it for debugging process
             cout << "\tError opening file.";
             return;
         }
@@ -473,8 +508,8 @@ public:
             if (promote_id == _id)
             {
                 cout << "\n\t\t   Employee ID found. Update the information" << endl;
-                cout << "\n\t\t  What do you want to update ";
-                cout << "\n\t\t\t   -------------Choose from below------------- " << endl;
+                cout << "\t\t  What do you want to update " << endl;
+                cout << "\t\t   -------------Choose from below------------- " << endl;
                 cout << "\n\t\t    __________________________________________ ";
                 cout << "\n\t\t   |                                          |";
                 cout << "\n\t\t   |  1--> Designation                        |"
@@ -485,7 +520,8 @@ public:
                 cout << "\n\t\t   |__________________________________________|" << endl;
                 choose = getch();
 
-                Sleep(3000);
+                // Sleep(1000);
+
                 system("CLS");
 
                 switch (choose)
@@ -501,7 +537,7 @@ public:
                         {
                             cout << endl;
 
-                            cout << " Invalid input! Enter alphabets only. " << endl;
+                            cout << "\t\tInvalid input! Enter alphabets only. " << endl;
                             goto a;
                         }
                     }
@@ -524,9 +560,41 @@ public:
                     cin >> _phone_number;
                     if (cin.fail())
                     {
-                        cout << " Invalid input. Enter integers only " << endl;
+                        cout << "\t\tInvalid input. Enter integers only " << endl;
                         goto c;
                     }
+                    while (_phone_number < 0)
+                    {
+                        cout << "==================================" << endl;
+                        cout << "Phone number cannot be negative." << endl;
+                        cout << "==================================" << endl;
+                        cin >> _phone_number;
+                    }
+
+                    /*
+                    int count = 0;
+                    while (_phone_number != 0)
+                    {
+                     _phone_number = _phone_number / 10;
+                     ++count;
+                    }
+
+                    while (count != 11 || _phone_number < 0)
+                    {
+                        cout << "=============================================================" << endl;
+                        cout << "Phone number must have 11 digits only and cannot be negative." << endl;
+                        cout << "=============================================================" << endl;
+                        cin >> _phone_number;
+                    }
+
+                    string num = to_string(_phone_number);
+                    while (num.size() != 11 || _phone_number < 0)
+                    {
+                    cout << "=============================================================" << endl;
+                    cout << "Phone number must have 11 digits only and cannot be negative." << endl;
+                    cout << "=============================================================" << endl;
+                    cin >> _phone_number;
+                    } */
 
                     break;
 
@@ -536,14 +604,14 @@ public:
                     cin >> _salary;
                     if (cin.fail())
                     {
-                        cout << " Invlid Input!!!  Enter integers only " << endl;
+                        cout << "\t\tInvlid Input!!!  Enter integers only " << endl;
                         goto d;
                     }
 
                     // Non negative and non zero salary vaidation
                     if (_salary <= 0)
                     {
-                        cout << " The salary must be non-negative and greater than zero " << endl;
+                        cout << "\t\tThe salary must be non-negative and greater than zero " << endl;
                         goto d;
                     }
 
@@ -555,7 +623,7 @@ public:
                     cin >> _employee_leaves;
                     if (cin.fail())
                     {
-                        cout << " Invalid Input!!! . Enter integer only " << endl;
+                        cout << "\t\tInvalid Input!!! . Enter integer only " << endl;
                         goto e;
                     }
 

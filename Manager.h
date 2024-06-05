@@ -179,6 +179,39 @@ public:
             goto e;
         }
 
+        while (_phone_number < 0)
+        {
+            cout << "==================================" << endl;
+            cout << "Phone number cannot be negative." << endl;
+            cout << "==================================" << endl;
+            cin >> _phone_number;
+        }
+
+        /*
+        int count = 0;
+        while (_phone_number != 0)
+        {
+         _phone_number = _phone_number / 10;
+         ++count;
+        }
+
+        while (count != 11 || _phone_number < 0)
+        {
+            cout << "=============================================================" << endl;
+            cout << "Phone number must have 11 digits only and cannot be negative." << endl;
+            cout << "=============================================================" << endl;
+            cin >> _phone_number;
+        }
+
+        string num = to_string(_phone_number);
+        while (num.size() != 11 || _phone_number < 0)
+        {
+        cout << "=============================================================" << endl;
+        cout << "Phone number must have 11 digits only and cannot be negative." << endl;
+        cout << "=============================================================" << endl;
+        cin >> _phone_number;
+        } */
+
     f:
         cout << "\t\t\t Designation of the managers: " << endl;
         cout << "\t\t\tWhat is the type of the managers " << endl;
@@ -254,7 +287,7 @@ public:
         ifstream file;
         file.open("ManagersData.txt");
 
-        // Faliure in opening of the file
+        // For debugging the filing in the code if the file is not able to be opened due to any reason
         if (!file.is_open())
         {
             cout << "\tError opening file.";
@@ -274,7 +307,7 @@ public:
         file.ignore();
         getline(file, _address);
 
-        while (!file.eof()) // Check if the end of file is reached
+        while (!file.eof()) // The loop will itrate from the start of the file to the end of the file
         {
             cout << "\n";
             cout << "\n\t\t *************************************************************************" << endl;
@@ -294,7 +327,9 @@ public:
             cout << "\t\t ||                                                                     ||";
             cout << "\n\t\t *************************************************************************" << endl;
             cout << "\n";
-            Sleep(2000);
+
+            Sleep(1000); // Stops for 1 second
+
             file >> _id;
             file.ignore();
             getline(file, _name);
@@ -521,8 +556,8 @@ public:
             if (promote_id == _id)
             {
                 cout << "\n\t\t   Manager ID found. Update the information" << endl;
-                cout << "\n\t\t  What do you want to update ";
-                cout << "\n\t\t\t   -------------Choose from below------------- " << endl;
+                cout << "\t\t  What do you want to update " << endl;
+                cout << "\t\t   -------------Choose from below------------- " << endl;
                 cout << "\n\t\t    __________________________________________ ";
                 cout << "\n\t\t   |                                          |";
                 cout << "\n\t\t   |  1--> Designation                        |"
@@ -601,6 +636,38 @@ public:
                         cout << " Invalid Input!!! Enter integers only " << endl;
                         goto b;
                     }
+                    while (_phone_number < 0)
+                    {
+                        cout << "==================================" << endl;
+                        cout << "Phone number cannot be negative." << endl;
+                        cout << "==================================" << endl;
+                        cin >> _phone_number;
+                    }
+
+                    /*
+                    int count = 0;
+                    while (_phone_number != 0)
+                    {
+                     _phone_number = _phone_number / 10;
+                     ++count;
+                    }
+
+                    while (count != 11 || _phone_number < 0)
+                    {
+                        cout << "=============================================================" << endl;
+                        cout << "Phone number must have 11 digits only and cannot be negative." << endl;
+                        cout << "=============================================================" << endl;
+                        cin >> _phone_number;
+                    }
+
+                    string num = to_string(_phone_number);
+                    while (num.size() != 11 || _phone_number < 0)
+                    {
+                    cout << "=============================================================" << endl;
+                    cout << "Phone number must have 11 digits only and cannot be negative." << endl;
+                    cout << "=============================================================" << endl;
+                    cin >> _phone_number;
+                    } */
 
                     break;
 
@@ -1440,13 +1507,13 @@ public:
 
                 case '6':
                 point:
-                    cout << "Enter the id of the employee: " << endl;
+                    cout << "Enter the id of the Manager: " << endl;
                     cin >> id;
                     cin.ignore();
                     found = Match_Employee_ID(id);
                     if (found)
                     {
-                        cout << "Enter the name of the employee: " << endl;
+                        cout << "Enter the name of the Manager: " << endl;
                         getline(cin, name);
                         char option;
 

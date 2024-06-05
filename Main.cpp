@@ -10,7 +10,7 @@ start:
     cout << "\t\t\t\t*************************************************" << endl;
     cout << "\t\t\t\t**=============================================**" << endl;
     cout << "\t\t\t\t**|                                           |**" << endl;
-    cout << "\t\t\t\t**|           MAG Inc, Corporation            |**" << endl;
+    cout << "\t\t\t\t**|           MAA Inc, Corporation            |**" << endl;
     cout << "\t\t\t\t**|                                           |**" << endl;
     cout << "\t\t\t\t**|                                           |**" << endl;
     cout << "\t\t\t\t**=============================================**" << endl;
