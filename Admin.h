@@ -77,7 +77,7 @@ public:
             cout << "\tThe username must consist of less than twenty characters "
                  << "and consist of at-least one upper case one lowercase and one symbol. " << endl;
             cout << endl;
-            Sleep(5000);
+            Sleep(3000);
             goto point;
         }
 
@@ -142,9 +142,11 @@ public:
                 cout << ".";
                 Sleep(1000);
             }
+
+            Sleep(1000);
             cout << "\n\n\t\tYour ID HAS BEEN CREATED ";
+            system("CLS");
         }
-        Admin_Login(); // login function called.
     }
 
     bool Admin_Login()
@@ -180,66 +182,71 @@ public:
 
         cout << "\n";
 
-        // Doing 2 factor authentication for the admin login (for a scrueity purpose)
-
-        _otp = Generate_OTP();
-        int _user_otp;
-
-        cout << "\n\t\t ________________________ " << endl;
-        cout << "\t\t|                        |" << endl;
-        cout << "\t\t|   OTP " << _otp << "          |" << endl;
-        cout << "\t\t|________________________|" << endl;
-
-        Sleep(5000);
-        system("CLS"); // for making the otp disappear after few seconds
-    OTP:
-        cout << " Enter the OTP: ";
-        cin >> _user_otp;
-        if (cin.fail())
+        ifstream file;
+        file.open("AdminUserPass.txt");
+        if (!file.is_open())
         {
-            cout << "\t\tInvalid  Input!!! . Enter integers only " << endl;
-            goto OTP;
+            cout << "\n\n\t\tAdmin with this username and password donot exist in your system " << endl;
+            cout << "\n\t\tFirst of all SIGN-UP then do the login " << endl;
+            Sleep(1000);
+            return false;
         }
 
-        cout << "\n\t\t Checking for the authentication";
-        for (int i = 0; i < 4; i++)
+        while (getline(file, username) && file >> password) // reading until the data in the file is finished
         {
-            cout << ".";
-            Sleep(1000);
+            file.ignore(1000, '\n'); // setting a limit of ignoring unwanted characters until newline characters (removes input buffer)
+            if (username == username_1 && password == pass_1)
+            {
+                match = true;
+                break;
+            }
         }
+        file.close();
 
-        cout << "\n";
-
-        if (_otp == _user_otp)
+        if (match)
         {
-            cout << "\t\t\t    ______________________________________ " << endl;
-            cout << "\t\t\t   |                                      |" << endl;
-            cout << "\t\t\t   |       Authentication Successful      |" << endl;
-            cout << "\t\t\t   |______________________________________|" << endl;
 
-            Sleep(1000);
-            system("CLS");
+            // Doing 2 factor authentication for the admin login (for a scrueity purpose)
 
-            ifstream file;
-            file.open("AdminUserPass.txt");
-            if (!file.is_open())
+            _otp = Generate_OTP();
+            int _user_otp;
+
+            cout << "\n";
+            cout << "\t\t\t ________________________ " << endl;
+            cout << "\t\t\t|                        |" << endl;
+            cout << "\t\t\t|      OTP: " << setw(10) << left << _otp << "   |" << endl;
+            cout << "\t\t\t|________________________|" << endl;
+
+            Sleep(5000);
+            system("CLS"); // for making the otp disappear after few seconds
+        OTP:
+            cout << "\n\t\tEnter the OTP: ";
+            cin >> _user_otp;
+            if (cin.fail())
             {
-                cout << "\t\tError opening file ";
+                cout << "\t\tInvalid  Input!!! . Enter integers only " << endl;
+                goto OTP;
             }
 
-            while (getline(file, username) && file >> password) // reading until the data in the file is finished
+            cout << "\n\t\t Checking for the authentication";
+            for (int i = 0; i < 4; i++)
             {
-                file.ignore(1000, '\n'); // setting a limit of ignoring unwanted characters until newline characters (removes input buffer)
-                if (username == username_1 && password == pass_1)
-                {
-                    match = true;
-                    break;
-                }
+                cout << ".";
+                Sleep(1000);
             }
-            file.close();
 
-            if (match == true)
+            cout << "\n";
+
+            if (_otp == _user_otp)
             {
+                cout << "\t\t\t    ______________________________________ " << endl;
+                cout << "\t\t\t   |                                      |" << endl;
+                cout << "\t\t\t   |       Authentication Successful      |" << endl;
+                cout << "\t\t\t   |______________________________________|" << endl;
+
+                Sleep(1000);
+                system("CLS");
+
                 cout << "\n";
                 cout << " \t \t \t \t Login Successful " << endl
                      << endl;
@@ -248,10 +255,7 @@ public:
                 cout << "\t\t\t===============================================================" << endl;
                 cout << "\n";
                 Sleep(2000);
-            }
 
-            if (match == true)
-            {
                 bool found;
                 char mainchoice, subchoice_a, subchoice_b;
 
@@ -307,6 +311,7 @@ public:
                             cout << "\t You have entered greater number of managers than ";
                             cout << "the total number of manager " << endl;
                             cout << "\t\tTotal Number of Managers: " << Get_Total_Number_Of_Managers() << endl;
+                            Sleep(1000);
                             goto a;
                         }
                         break;
@@ -321,13 +326,18 @@ public:
                             cout << "\t\tManager Count: " << Get_Manger_Count() << endl;
                             cout << "\t\tTotal Number of Managers: " << Get_Total_Number_Of_Managers() << endl;
                             cout << "\t\tMaximum number of managers are added " << endl;
-                            goto start;
+                            Sleep(1000);
+                            goto point_a;
                         }
+
+                        Sleep(1000);
                         goto point_a;
                         break;
 
                     case '3':
                         Search_Manager_Data();
+                        cin.ignore(132, '\n');
+                        cin.get();
                         goto point_a;
                         break;
 
@@ -343,6 +353,8 @@ public:
 
                     case '6':
                         Show_All_Managers_Data();
+                        cin.ignore(132, '\n');
+                        cin.get();
                         goto point_a;
                         break;
 
@@ -374,17 +386,19 @@ public:
                         {
                             cout << "!";
                             Sleep(1000);
-                            goto point_a;
                         }
-                    }
+                        goto point_a;
 
-                    break; // Finish of maincase 1
+                        break;
+                    } // Finish of the  Manager cases
+
+                    break; // Finish of maincase number 1
 
                 case '2':
 
                 point_b:
                     system("CLS");
-                    Sleep(2000);
+                    // Sleep(1000);
 
                     cout << "\t\t\t------------Choose from below----------- " << endl;
                     cout << "\t\t\t _______________________________________" << endl;
@@ -406,21 +420,23 @@ public:
                     case '1':
                     b:
                         Set_Number_Of_Employees();
-                        if (Get_Total_Employees() >= Get_Number_Of_Employees())
+                        if (Get_Total_Number_Of_Employee() >= Get_Number_Of_Employees())
                         {
+                            Sleep(1000);
                             goto point_b;
                         }
                         else
                         {
                             cout << "\t You have greater number of employees than ";
                             cout << "the total number of employees " << endl;
-                            cout << "\t\t Total Number of Employees: " << Get_Total_Employees() << endl;
+                            cout << "\t\t Total Number of Employees: " << Get_Total_Number_Of_Employee() << endl;
+                            Sleep(1000);
                             goto b;
                         }
                         break;
 
                     case '2':
-                        if (Get_Total_Employees() >= Get_Employee_Number())
+                        if (Get_Total_Number_Of_Employee() >= Get_Employee_Number())
                         {
 
                             Add_Employee();
@@ -428,15 +444,18 @@ public:
                         else
                         {
                             cout << "\t\t Employee Count: " << Get_Employee_Count() << endl;
-                            cout << "\t\tTotal Number of Employees: " << Get_Total_Employees() << endl;
+                            cout << "\t\tTotal Number of Employees: " << Get_Total_Number_Of_Employee() << endl;
                             cout << "\t\tMaximum number of employees are added " << endl;
-                            goto start;
+                            Sleep(1000);
+                            goto point_b;
                         }
                         goto point_b;
                         break;
 
                     case '3':
                         Search_Employee_Data();
+                        cin.ignore(132, '\n');
+                        cin.get();
                         goto point_b;
                         break;
 
@@ -452,6 +471,8 @@ public:
 
                     case '6':
                         Show_All_Employees_Data();
+                        cin.ignore(132, '\n');
+                        cin.get();
                         goto point_b;
                         break;
 
@@ -473,6 +494,7 @@ public:
                         break;
 
                     case '9':
+                        Sleep(1000);
                         goto Menu;
                         break;
 
@@ -482,23 +504,43 @@ public:
                         {
                             cout << "!";
                             Sleep(1000);
-                            goto point_b;
                         }
+                        goto point_b;
                         break;
+                    } // Finish of the cases of the Employees
+
+                    break; // Finish of the maincase number 2
+
+                case '3':
+                    return false;
+                    break;
+
+                default:
+                    cout << " Invalid Input ";
+                    for (int i = 0; i < 3; i++)
+                    {
+                        cout << "!";
+                        Sleep(1000);
                     }
-                }
+                    goto Menu;
+
+                } // Finish of the main switch
+            }
+            else
+            {
+                cout << "\t\t\t    ______________________________________ " << endl;
+                cout << "\t\t\t   |                                      |" << endl;
+                cout << "\t\t\t   |     Authentication Unsuccessful      |" << endl;
+                cout << "\t\t\t   |______________________________________|" << endl;
+                cout << "The login failed. Please try again." << endl;
+                cin.ignore();
+                Sleep(3000);
+                goto start;
             }
         }
         else
         {
-            cout << "\t\t\t    ______________________________________" << endl;
-            cout << "\t\t\t   |                                      |" << endl;
-            cout << "\t\t\t   |     Authentication Unsuccessful      |" << endl;
-            cout << "\t\t\t   |______________________________________|" << endl;
-            cout << "The login failed. Please try again." << endl;
-            cin.ignore();
-            Sleep(3000);
-            goto start;
+            cout << "\t\t The username and password didnot match in your system " << endl;
         }
     }
 
@@ -537,7 +579,7 @@ public:
 
         while (getline(file, username_1) && file >> password_1)
         {
-            file.ignore(1000, '\n');  // Ignore the rest of the line. Such as the password followed by whitespaces and special characters
+            file.ignore(1000, '\n'); // Ignore the rest of the line. Such as the password followed by whitespaces and special characters
 
             if (username == username_1 && password != password_1)
             {
@@ -584,7 +626,7 @@ public:
                 }
                 else if (pass == 8 && password.length() > 0) // dealing with if backspace is pressed. The ASCII value of the backspace is 8
                 {
-                    password.pop_back(); // will remove last character it will seem as backspace is pressed 
+                    password.pop_back(); // will remove last character it will seem as backspace is pressed
                     cout << "\b \b";
                 }
             }
@@ -634,14 +676,27 @@ public:
 
     void Set_Total_Managers()
     {
-    a:
+    
         int number;
-        cout << "\n\n\t\t Enter the total manager you have in your company ";
-        cin >> number;
-        if (cin.fail())
+        bool valid_input = false;
+
+        while (!valid_input)
         {
-            cout << "\n\n\t\t Invalid Input. Please enter again " << endl;
-            goto a;
+
+            cout << "\n\n\t\t Enter the total manager you have in your company ";
+            cin >> number;
+
+            if (cin.fail())
+            {
+                cout << "\n\n\t\t Invalid Input. Please enter again " << endl;
+                cin.clear();
+                cin.ignore(132 , '\n');
+    
+            }
+            else 
+            {
+                valid_input = true;
+            }
         }
 
         _total_manager = number;
@@ -654,15 +709,26 @@ public:
 
     void Set_Number_Of_Managers()
     {
-    a:
         int number;
-        cout << "\n\n\t\t Enter the number of managers you want to enter ";
-        cin >> number;
-        if (cin.fail())
+        bool valid_input = false;
+
+        while (!valid_input)
         {
-            cout << "\n\n\t\t Invlaid Input. Please enter again " << endl;
-            goto a;
+            cout << "\n\n\t\t Enter the number of managers you want to enter: ";
+            cin >> number;
+
+            if (cin.fail())
+            {
+                cin.clear();           // clear the error flag
+                cin.ignore(132, '\n'); // discard invalid input
+                cout << "\n\n\t\t Invalid input. Please enter a valid number." << endl;
+            }
+            else
+            {
+                valid_input = true;
+            }
         }
+
         _manager_add = number;
     }
 

@@ -14,7 +14,6 @@ private:
     string _manager_designation;
     int _manager_leaves;
     string _experience;
-    int total_employees;
 
 public:
     Manager() // Default Constructor
@@ -22,16 +21,6 @@ public:
         _manager_designation = " Manager ";
         _manager_count = 0;
         _manager_number = 0;
-    }
-
-    int Get_Total_Employees()
-    {
-        return total_employees;
-    }
-
-    void Set_Total_Number_Of_Employee()
-    {
-        total_employees = Get_Total_Number_Of_Employee();
     }
 
     void Set_Number_Of_Employees()
@@ -75,20 +64,17 @@ public:
 
     // Main member fucntions
 
-    void Add_Manager()
+    /*void Add_Manager()
     {
         string id;
         ifstream file;
         file.open("ManagersData.txt", ios::in);
-
         cout << "\n";
-
         cout << " Enter the following information of the Manager " << endl;
-
         cout << endl;
 
     start:
-        cout << " Enter the manager ID ";
+        cout << " Enter the manager ID: ";
         cin >> _id;
 
         // Checking whether an Manager with the eneterd id exits or nott
@@ -145,31 +131,31 @@ public:
         cout << " Manager Experience: ";
         getline(cin, _experience);
 
-        /* No validation because the experience can be 3.5 months / 5 years  it can include int and string both */
+        // No validation because the experience can be 3.5 months / 5 years  it can include int and string both
 
         // d:
 
         cout << " Manager address: ";
         getline(cin, _address);
 
-        /*for (char i = 0; i < _address.length(); i++)
-        {
-            if (isdigit(_address[i]))
-            {
-                cout << endl;
+        // for (char i = 0; i < _address.length(); i++)
+        // {
+        //     if (isdigit(_address[i]))
+        //     {
+        //         cout << endl;
 
-                cout << " Invalid input! Enter alphabets only. " << endl;
-                goto d;
-            }
-        }
+        //         cout << " Invalid input! Enter alphabets only. " << endl;
+        //         goto d;
+        //     }
+        // }
 
-        There is no validation for address because it can contain the house-number , street-number and
-        also the zip code of the city based upon the user input
+        // There is no validation for address because it can contain the house-number , street-number and
+        // also the zip code of the city based upon the user input
 
-        */
+
 
     e:
-        cout << " Manager phone number ";
+        cout << " Manager phone number: ";
         cin >> _phone_number;
         if (cin.fail())
         {
@@ -187,30 +173,30 @@ public:
             cin >> _phone_number;
         }
 
-        /*
-        int count = 0;
-        while (_phone_number != 0)
-        {
-         _phone_number = _phone_number / 10;
-         ++count;
-        }
 
-        while (count != 11 || _phone_number < 0)
-        {
-            cout << "=============================================================" << endl;
-            cout << "Phone number must have 11 digits only and cannot be negative." << endl;
-            cout << "=============================================================" << endl;
-            cin >> _phone_number;
-        }
+        // int count = 0;
+        // while (_phone_number != 0)
+        // {
+        //  _phone_number = _phone_number / 10;
+        //  ++count;
+        // }
 
-        string num = to_string(_phone_number);
-        while (num.size() != 11 || _phone_number < 0)
-        {
-        cout << "=============================================================" << endl;
-        cout << "Phone number must have 11 digits only and cannot be negative." << endl;
-        cout << "=============================================================" << endl;
-        cin >> _phone_number;
-        } */
+        // while (count != 11 || _phone_number < 0)
+        // {
+        //     cout << "=============================================================" << endl;
+        //     cout << "Phone number must have 11 digits only and cannot be negative." << endl;
+        //     cout << "=============================================================" << endl;
+        //     cin >> _phone_number;
+        // }
+
+        // string num = to_string(_phone_number);
+        // while (num.size() != 11 || _phone_number < 0)
+        // {
+        // cout << "=============================================================" << endl;
+        // cout << "Phone number must have 11 digits only and cannot be negative." << endl;
+        // cout << "=============================================================" << endl;
+        // cin >> _phone_number;
+        // }
 
     f:
         cout << "\t\t\t Designation of the managers: " << endl;
@@ -278,6 +264,239 @@ public:
         file_write.close();
 
         cout << " Manager added successfully! " << endl;
+        _manager_count++;
+        _manager_number++;
+    } */
+
+    void Add_Manager()
+    {
+        string id;
+        ifstream file;
+        file.open("ManagersData.txt", ios::in);
+
+        system("CLS");
+
+        cout << "\n";
+        cout << "\t Enter the following information of the Manager " << endl;
+        cout << endl;
+
+        // Validate manager ID
+        bool valid_id = false;
+        while (!valid_id)
+        {
+            cout << "\t Enter the manager ID: ";
+            cin >> _id;
+
+            if (!file)
+            {
+                file.clear();
+                valid_id = true;
+            }
+            else
+            {
+                while (file >> id)
+                {
+                    file.ignore();
+                    if (id == _id)
+                    {
+                        cout << "\t An manager with this ID already exists " << endl;
+                        file.close();
+                        file.open("ManagersData.txt", ios::in);
+                        break;
+                    }
+                }
+                if (file.eof())
+                {
+                    valid_id = true;
+                }
+                file.clear();
+                file.seekg(0, ios::beg);
+            }
+        }
+
+        cin.ignore();
+
+        // Validate manager name
+        bool valid_name = false;
+        while (!valid_name)
+        {
+            cout << "\t Manager name: ";
+            getline(cin, _name);
+            valid_name = true;
+            for (char i = 0; i < _name.length(); i++)
+            {
+                if (isdigit(_name[i]))
+                {
+                    cout << endl;
+                    cout << "\t Invalid input! Enter alphabets only. " << endl;
+                    valid_name = false;
+                    break;
+                }
+            }
+        }
+
+        // Validate manager age
+        bool valid_age = false;
+        while (!valid_age)
+        {
+            cout << "\t Manager age: ";
+            cin >> _age;
+            if (cin.fail())
+            {
+                cin.clear();
+                cin.ignore(132, '\n');
+                cout << endl;
+                cout << "\t Invalid input! Enter integers only " << endl;
+            }
+            else
+            {
+                valid_age = true;
+            }
+        }
+
+        cin.ignore();
+
+        // No validation needed for experience and address
+        cout << "\t Manager Experience: ";
+        getline(cin, _experience);
+
+        /* No validation on experience because it can be 4.5 years */
+
+        cout << "\t Manager address: ";
+        getline(cin, _address);
+
+        /*for (char i = 0; i < _address.length(); i++)
+        {
+            if (isdigit(_address[i]))
+            {
+                cout << endl;
+
+                cout << " Invalid input! Enter alphabets only. " << endl;
+
+            }
+        }
+
+        There is no validation for address because it can contain the house-number , street-number and
+        also the zip code of the city based upon the user input
+
+        */
+
+        // Validate phone number
+        bool valid_phone = false;
+        while (!valid_phone)
+        {
+            cout << "\t Manager phone number: ";
+            cin >> _phone_number;
+            if (cin.fail() || _phone_number < 0)
+            {
+                cin.clear();
+                cin.ignore(132, '\n');
+                cout << endl;
+                cout << "\t Invalid input! Enter positive integers only " << endl;
+            }
+            else
+            {
+                valid_phone = true;
+            }
+        }
+
+        /*
+            int count = 0;
+            while (_phone_number != 0)
+            {
+             _phone_number = _phone_number / 10;
+             ++count;
+            }
+
+            while (count != 11 || _phone_number < 0)
+            {
+                cout << "=============================================================" << endl;
+                cout << "Phone number must have 11 digits only and cannot be negative." << endl;
+                cout << "=============================================================" << endl;
+                cin >> _phone_number;
+            }
+
+            string num = to_string(_phone_number);
+            while (num.size() != 11 || _phone_number < 0)
+            {
+            cout << "=============================================================" << endl;
+            cout << "Phone number must have 11 digits only and cannot be negative." << endl;
+            cout << "=============================================================" << endl;
+            cin >> _phone_number;
+            } */
+
+        // cin.ignore();
+
+        // Validate manager designation
+        bool valid_choice = false;
+        while (!valid_choice)
+        {
+            cout << "\t\t\t Designation of the managers: " << endl;
+            cout << "\t\t\tWhat is the type of the managers " << endl;
+            cout << "\t\t\t-------------Choose from below--------------" << endl;
+            cout << "\t\t\t____________________________________________" << endl;
+            cout << "\t\t\t|                                           |" << endl;
+            cout << "\t\t\t|        1-> HR Manager                     |" << endl;
+            cout << "\t\t\t|        2-> Marketing Manager              |" << endl;
+            cout << "\t\t\t|        3-> Sales Manager                  |" << endl;
+            cout << "\t\t\t|        4-> Team Leader                    |" << endl;
+            cout << "\t\t\t|___________________________________________|" << endl;
+            choice = getch();
+
+            switch (choice)
+            {
+            case '1':
+                _manager_designation = "HR Manager";
+                _salary = 70000;
+                _manager_leaves = 6;
+                valid_choice = true;
+                break;
+            case '2':
+                _manager_designation = "Marketing Head";
+                _salary = 100000;
+                _manager_leaves = 4;
+                valid_choice = true;
+                break;
+            case '3':
+                _manager_designation = "Sales Head";
+                _salary = 90000;
+                _manager_leaves = 5;
+                valid_choice = true;
+                break;
+            case '4':
+                _manager_designation = "Team Leader";
+                _salary = 100000;
+                _manager_leaves = 8;
+                valid_choice = true;
+                break;
+            default:
+                cout << "\t Invalid choice!!! . Please enter again " << endl;
+                break;
+            }
+        }
+
+        // Saving the data in the file
+        ofstream file_write;
+        file_write.open("ManagersData.txt", ios::out | ios::app);
+        if (!file_write.is_open())
+        {
+            cout << " Error opening the file " << endl;
+            return;
+        }
+        file_write << _id << "\n";
+        file_write << _name << "\n";
+        file_write << _age << "\n";
+        file_write << _experience << "\n";
+        file_write << _phone_number << "\n";
+        file_write << _manager_designation << "\n";
+        file_write << _salary << "\n";
+        file_write << _manager_leaves << "\n";
+        file_write << _address << "\n";
+
+        file_write.close();
+
+        Sleep(1000);
+        cout << "\t Manager added successfully! " << endl;
         _manager_count++;
         _manager_number++;
     }
@@ -1376,7 +1595,7 @@ public:
                 case '1':
                 a:
                     Set_Number_Of_Employees();
-                    if (Get_Total_Employees() >= Get_Number_Of_Employees())
+                    if (Get_Total_Number_Of_Employee() >= Get_Number_Of_Employees())
                     {
                         goto point_a;
                     }
@@ -1384,13 +1603,13 @@ public:
                     {
                         cout << " You have greater number of employees than ";
                         cout << "the total number of employees " << endl;
-                        cout << " Total Number of Employees: " << Get_Total_Employees() << endl;
+                        cout << " Total Number of Employees: " << Get_Total_Number_Of_Employee() << endl;
                         goto a;
                     }
                     break;
 
                 case '2':
-                    if (Get_Total_Employees() >= Get_Employee_Number())
+                    if (Get_Total_Number_Of_Employee() >= Get_Employee_Number())
                     {
 
                         Add_Employee();
@@ -1398,7 +1617,7 @@ public:
                     else
                     {
                         cout << " Employee Count: " << Get_Employee_Count() << endl;
-                        cout << " Total Number of Employees: " << Get_Total_Employees() << endl;
+                        cout << " Total Number of Employees: " << Get_Total_Number_Of_Employee() << endl;
                         cout << " Maximum number of employees are added " << endl;
                         goto start;
                     }
@@ -1407,6 +1626,8 @@ public:
 
                 case '3':
                     Search_Employee_Data();
+                    cin.ignore(132, '\n');
+                    cin.get();
                     goto point_a;
                     break;
 
@@ -1422,6 +1643,8 @@ public:
 
                 case '6':
                     Show_All_Employees_Data();
+                    cin.ignore(132, '\n');
+                    cin.get();
                     goto point_a;
                     break;
 
@@ -1486,7 +1709,8 @@ public:
 
                 case '2':
                     Show_This_Manager_Information(Get_ID());
-
+                    cin.ignore(132, '\n');
+                    cin.get();
                     goto point_b;
                     break;
 

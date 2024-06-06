@@ -25,12 +25,12 @@ protected:
         // Default Constructor
     }
 
-    virtual void set_ID(string id)
+    void set_ID(string id)
     {
         _id = id;
     }
 
-    virtual string get_ID() const
+    string get_ID() const
     {
         return _id;
     }
@@ -39,14 +39,23 @@ protected:
 
     void Set_Total_Employees()
     {
-    a:
         int number;
-        cout << "\n\n\t\tEnter the total employees you have in your company ";
-        cin >> number;
-        if (cin.fail())
+        bool valid_input = false;
+
+        while (!valid_input)
         {
-            cout << " Invalid Input. Please enter again " << endl;
-            goto a;
+            cout << "\n\n\t\tEnter the total employees you have in your company ";
+            cin >> number;
+            if (cin.fail())
+            {
+                cout << " Invalid Input. Please enter again " << endl;
+                cin.clear(); // Ressets the error state
+                cin.ignore(132 , '\n');
+            }
+            else
+            {
+                valid_input = true;
+            }
         }
 
         _total_employees = number;
@@ -124,7 +133,7 @@ protected:
             match = true;
             return match;
         }
-        else 
+        else
         {
             match = false;
             return match;
@@ -434,7 +443,7 @@ protected:
     }
 
     // Login
-    virtual bool Strong_Username(const string& _user_name)
+    bool Strong_Username(const string &_user_name)
     {
         bool _has_upper_case = false;
         bool _has_lower_case = false;

@@ -40,16 +40,16 @@ public:
         return get_ID(); // Called a member function of the base class
     }
 
-    void Add_Employee()
+    /*void Add_Employee()
     {
         string id;
         ifstream file;
         file.open("EmployeesData.txt");
-        /*if (!file.is_open())    This condition will be automatically executed  cauz  opening the file for first time befor it is even created
+        if (!file.is_open())    This condition will be automatically executed  cauz  opening the file for first time befor it is even created
         {
             cout << " Error opening the file " << endl;
             return;
-        }*/
+        }
 
         cout << " \n ";
 
@@ -116,7 +116,7 @@ public:
         cout << "\tEmployee address: ";
         getline(cin, _address);
 
-        /* for (char i = 0; i < _address.length(); i++)
+        for (char i = 0; i < _address.length(); i++)
         {
             if (isdigit(_address[i]))
             {
@@ -130,7 +130,7 @@ public:
          There is no validation for address because it can contain the house-number , street-number and
         also the zip code of the city based upon the user input
 
-        */
+
 
     d:
         cout << "\tEmployee phone number ";
@@ -149,7 +149,7 @@ public:
             cin >> _phone_number;
         }
 
-        /*
+
         int count = 0;
         while (_phone_number != 0)
         {
@@ -172,7 +172,7 @@ public:
         cout << "Phone number must have 11 digits only and cannot be negative." << endl;
         cout << "=============================================================" << endl;
         cin >> _phone_number;
-        } */
+        }
 
         // cin.ignore();
 
@@ -252,6 +252,258 @@ public:
         file_write.close();
 
         cout << "\tEmployee added successfully! " << endl;
+        _employee_count++;
+        _employee_number++;
+    }*/
+
+    void Add_Employee()
+    {
+        string id;
+        ifstream file;
+        file.open("EmployeesData.txt");
+        /*if (!file.is_open())    This condition will be automatically executed  cauz  opening the file for first time befor it is even created
+        {
+            cout << " Error opening the file " << endl;
+           return;
+        }*/
+
+        cout << " \n ";
+        cout << "\t    Enter the following information of the employee " << endl;
+        cout << endl;
+
+        bool valid_id = false;
+
+        while (!valid_id)
+        {
+            cout << "\t Enter the employee ID: ";
+            cin >> _id;
+
+            // Checking whether an employee with the entered ID exists or not
+            // If the file does not exist, we can skip this check
+            if (!file)
+            {
+                file.clear();
+                valid_id = true;
+            }
+            else
+            {
+                bool id_exists = false;
+                while (file >> id)
+                {
+                    file.ignore();
+
+                    if (id == _id)
+                    {
+                        cout << "\t An employee with this id already exists " << endl;
+                        Sleep(1000);
+                        file.close();
+
+                        file.open("EmployeesData.txt");
+                        id_exists = true;
+                        break;
+                    }
+                }
+                if (!id_exists)
+                {
+                    valid_id = true;
+                }
+                file.clear();
+                /*The file.clear() function is used to clear the error state flags of the ifstream object.
+                This is necessary because certain operations, like reading past the end of a file or encountering invalid input,
+                can set error flags (such as eofbit, failbit, or badbit) on the stream.
+                The most important the file.clear() donot clear the data of the file*/
+
+                file.seekg(0, ios::beg); // Used to reset the reading position of the file  'beg' is for beigning
+            }
+        }
+        file.close();
+
+        cin.ignore();
+
+        bool valid_name = false;
+        while (!valid_name)
+        {
+            cout << "\t Employee name: ";
+            getline(cin, _name);
+            valid_name = true;
+            for (char i = 0; i < _name.length(); i++)
+            {
+                if (isdigit(_name[i]))
+                {
+                    cout << endl;
+                    cout << "\t Invalid input! Enter alphabets only. " << endl;
+                    valid_name = false;
+                    break;
+                }
+            }
+        }
+
+        bool valid_age = false;
+        while (!valid_age)
+        {
+            cout << "\t Employee age: ";
+            cin >> _age;
+            if (cin.fail())
+            {
+                cout << endl;
+                cout << "\t Invalid input! Enter integers only " << endl;
+                cin.clear();
+                cin.ignore(132, '\n');
+            }
+            else
+            {
+                valid_age = true;
+            }
+        }
+
+        cin.ignore();
+
+        cout << "\t Employee address: ";
+        getline(cin, _address);
+
+        /*for (char i = 0; i < _address.length(); i++)
+        {
+            if (isdigit(_address[i]))
+            {
+                cout << endl;
+
+                cout << " Invalid input! Enter alphabets only. " << endl;
+
+            }
+        }
+
+        There is no validation for address because it can contain the house-number , street-number and
+        also the zip code of the city based upon the user input
+
+        */
+
+        bool valid_phone = false;
+        while (!valid_phone)
+        {
+            cout << "\t Employee phone number: ";
+            cin >> _phone_number;
+            if (cin.fail() || _phone_number < 0)
+            {
+                cout << "\t Invalid Input !!! Enter integers only and phone number cannot be negative." << endl;
+                cin.clear();
+                cin.ignore(132, '\n');
+            }
+            else
+            {
+                valid_phone = true;
+            }
+        }
+
+        /*
+            int count = 0;
+            while (_phone_number != 0)
+            {
+             _phone_number = _phone_number / 10;
+             ++count;
+            }
+
+            while (count != 11 || _phone_number < 0)
+            {
+                cout << "=============================================================" << endl;
+                cout << "Phone number must have 11 digits only and cannot be negative." << endl;
+                cout << "=============================================================" << endl;
+                cin >> _phone_number;
+            }
+
+            string num = to_string(_phone_number);
+            while (num.size() != 11 || _phone_number < 0)
+            {
+            cout << "=============================================================" << endl;
+            cout << "Phone number must have 11 digits only and cannot be negative." << endl;
+            cout << "=============================================================" << endl;
+            cin >> _phone_number;
+            } */
+
+        // cin.ignore();
+
+        bool valid_choice = false;
+        while (!valid_choice)
+        {
+            cout << "\t\t\tDesignation of the employees: " << endl;
+            cout << "\t\t\tWhat is the type of the employee " << endl;
+            cout << "\t\t\t-------------Choose from below--------------" << endl;
+            cout << "\t\t\t____________________________________________" << endl;
+            cout << "\t\t\t|                                           |" << endl;
+            cout << "\t\t\t|        1-> Office boy                     |" << endl;
+            cout << "\t\t\t|        2-> Clerk                          |" << endl;
+            cout << "\t\t\t|        3-> Accountant                     |" << endl;
+            cout << "\t\t\t|        4-> IT specialist                  |" << endl;
+            cout << "\t\t\t|        5-> Sales Representative           |" << endl;
+            cout << "\t\t\t|        6-> Marketing person               |" << endl;
+            cout << "\t\t\t|___________________________________________|" << endl;
+            choice = getch();
+
+            switch (choice)
+            {
+            case '1':
+                _employee_designation = "Office Boy";
+                _salary = 30000;
+                _employee_leaves = 6;
+                valid_choice = true;
+                break;
+            case '2':
+                _employee_designation = "Clerk";
+                _salary = 40000;
+                _employee_leaves = 4;
+                valid_choice = true;
+                break;
+            case '3':
+                _employee_designation = "Accountant";
+                _salary = 50000;
+                _employee_leaves = 5;
+                valid_choice = true;
+                break;
+            case '4':
+                _employee_designation = "IT specialist";
+                _salary = 100000;
+                _employee_leaves = 8;
+                valid_choice = true;
+                break;
+            case '5':
+                _employee_designation = "Sales Representative";
+                _salary = 70000;
+                _employee_leaves = 6;
+                valid_choice = true;
+                break;
+            case '6':
+                _employee_designation = "Marketing person";
+                _salary = 80000;
+                _employee_leaves = 5;
+                valid_choice = true;
+                break;
+            default:
+                cout << "\t Invalid choice!!! Please enter again " << endl;
+                break;
+            }
+        }
+
+        // Saving the data in the file
+        ofstream file_write;
+        file_write.open("EmployeesData.txt", ios::out | ios::app);
+        if (!file_write.is_open())
+        {
+            cout << "\t Error opening the file " << endl;
+            return;
+        }
+        file_write << _id << "\n";
+        file_write << _name << "\n";
+        file_write << _age << "\n";
+        file_write << _phone_number << "\n";
+        file_write << _employee_designation << "\n";
+        file_write << _salary << "\n";
+        file_write << _employee_leaves << "\n";
+        file_write << _address << "\n";
+
+        file_write.close();
+
+        Sleep(2000);
+
+        cout << "\t Employee added successfully! " << endl;
         _employee_count++;
         _employee_number++;
     }
@@ -349,7 +601,7 @@ public:
                 cout << "\n";
                 cout << "\n\t\t *************************************************************************" << endl;
                 cout << "\t\t ||\t                    Data of Employee:    " << search_id
-                     << "\t\t     ||" << endl;
+                     << "\t\t         ||" << endl;
                 cout << "\t\t ||_____________________________________________________________________||" << endl;
                 cout << "\t\t ||                                                                     ||" << endl;
                 cout << "\t\t || Employee ID                        : " << setw(25) << left << _id << "\t||" << endl;
@@ -667,12 +919,12 @@ public:
         if (found == true)
         {
             cout << "\tData Updated Successfully." << endl;
-            Sleep(2000);
+            Sleep(1000);
         }
         else
         {
             cout << "\tEmployee ID not found." << endl;
-            Sleep(2000);
+            Sleep(1000);
         }
     }
 
@@ -1083,7 +1335,7 @@ public:
     }
 
     // This function checks whether the username entered is string or not
-    bool Strong_Username(const string &_username) override
+    bool Strong_Username(const string &_username)
     {
         bool _has_upper_case = false;
         bool _has_lower_case = false;
@@ -1294,6 +1546,8 @@ public:
 
             case '2':
                 Show_This_Employee_Information(Get_ID());
+                cin.ignore(132, '\n');
+                cin.get();
                 goto a;
                 break;
 
