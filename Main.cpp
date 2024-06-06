@@ -46,6 +46,7 @@ int main()
     {
 
         start:
+        system("CLS");
         cout << "\n\n";
         cout << "\t\t\t _____________________________________________ " << endl;
         cout << "\t\t\t|                                             |" << endl;
@@ -64,7 +65,7 @@ int main()
         case '2':
             if (a1.Admin_Login() == false)
             {
-                found = false;
+                goto start;
             }
 
             break;

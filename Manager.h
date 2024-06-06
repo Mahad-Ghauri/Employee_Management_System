@@ -1877,7 +1877,7 @@ public:
         if (!file.is_open())
         {
             cout << "\tError opening file.";
-            // return;
+            return false;
         }
 
         file >> _id;
@@ -2187,13 +2187,5 @@ public:
             cout << "\tManager ID not found." << endl;
         }
     }
-
-    /* No need of the following function because this derived class is inheritd
-    form the Employee class that already contains this fucntion
-     bool Promotion_Approval() override
-     {
-        Promotion_Approval();
-     }
-    */
 };
 #endif
