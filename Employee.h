@@ -4,6 +4,11 @@
 #include "Parking.h"
 #include "Person.h"
 
+void Set_Colour(int value)
+{
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), value);
+}
+
 class Employee : virtual public Person, public Parking // The final keyword prevent further inheritance of the class
 {
 private:
@@ -39,222 +44,6 @@ public:
     {
         return get_ID(); // Called a member function of the base class
     }
-
-    /*void Add_Employee()
-    {
-        string id;
-        ifstream file;
-        file.open("EmployeesData.txt");
-        if (!file.is_open())    This condition will be automatically executed  cauz  opening the file for first time befor it is even created
-        {
-            cout << " Error opening the file " << endl;
-            return;
-        }
-
-        cout << " \n ";
-
-        cout << "\t    Enter the following information of the employee " << endl;
-
-        cout << endl;
-
-    start:
-        cout << "\tEnter the employee ID ";
-        cin >> _id;
-
-        // Checking whether an employee with the eneterd id exits or not
-        // If the file does not exist, we can skip this check
-        if (!file)
-        {
-            file.clear();
-        }
-        else
-        {
-            while (file >> id)
-            {
-                file.ignore();
-
-                if (id == _id)
-                {
-                    cout << " An employee with this id already exists " << endl;
-                    Sleep(1000);
-                    file.close();
-                    goto start;
-                }
-            }
-            file.close();
-        }
-        cin.ignore();
-    a:
-        cout << "\tEmployee name: ";
-        getline(cin, _name);
-        for (char i = 0; i < _name.length(); i++)
-        {
-            if (isdigit(_name[i]))
-            {
-                cout << endl;
-
-                cout << " Invalid input! Enter alphabets only. " << endl;
-                goto a;
-            }
-        }
-
-    b:
-        cout << "\tEmployee age: ";
-        cin >> _age;
-        if (cin.fail())
-        {
-            cout << endl;
-
-            cout << " Invlaid input!. Enter integers only " << endl;
-            goto b;
-        }
-
-        cin.ignore();
-
-        // c:
-
-        cout << "\tEmployee address: ";
-        getline(cin, _address);
-
-        for (char i = 0; i < _address.length(); i++)
-        {
-            if (isdigit(_address[i]))
-            {
-                cout << endl;
-
-                cout << " Invalid input! Enter alphabets only. " << endl;
-                goto c;
-            }
-        }
-
-         There is no validation for address because it can contain the house-number , street-number and
-        also the zip code of the city based upon the user input
-
-
-
-    d:
-        cout << "\tEmployee phone number ";
-        cin >> _phone_number;
-        if (cin.fail())
-        {
-            cout << "\t\tInvalid Input !!! . Enter  integers only " << endl;
-            goto d;
-        }
-
-        while (_phone_number < 0)
-        {
-            cout << "==================================" << endl;
-            cout << "Phone number cannot be negative." << endl;
-            cout << "==================================" << endl;
-            cin >> _phone_number;
-        }
-
-
-        int count = 0;
-        while (_phone_number != 0)
-        {
-         _phone_number = _phone_number / 10;
-         ++count;
-        }
-
-        while (count != 11 || _phone_number < 0)
-        {
-            cout << "=============================================================" << endl;
-            cout << "Phone number must have 11 digits only and cannot be negative." << endl;
-            cout << "=============================================================" << endl;
-            cin >> _phone_number;
-        }
-
-        string num = to_string(_phone_number);
-        while (num.size() != 11 || _phone_number < 0)
-        {
-        cout << "=============================================================" << endl;
-        cout << "Phone number must have 11 digits only and cannot be negative." << endl;
-        cout << "=============================================================" << endl;
-        cin >> _phone_number;
-        }
-
-        // cin.ignore();
-
-    e:
-
-        cout << "\t\t\tDesignation of the employees: " << endl;
-        cout << "\t\t\tWhat is the type of the employee " << endl;
-        cout << "\t\t\t-------------Choose from below--------------" << endl;
-        cout << "\t\t\t____________________________________________" << endl;
-        cout << "\t\t\t|                                           |" << endl;
-        cout << "\t\t\t|        1-> Office boy                     |" << endl;
-        cout << "\t\t\t|        2-> Clerk                          |" << endl;
-        cout << "\t\t\t|        3-> Accountant                     |" << endl;
-        cout << "\t\t\t|        4-> IT specailist                  |" << endl;
-        cout << "\t\t\t|        5-> Sales Representative           |" << endl;
-        cout << "\t\t\t|        6-> Marketing person               |" << endl;
-        cout << "\t\t\t|___________________________________________|" << endl;
-        choice = getch();
-
-        switch (choice)
-        {
-        case '1':
-            _employee_designation = "Office Boy";
-            _salary = 30000;
-            _employee_leaves = 6;
-            break;
-
-        case '2':
-            _employee_designation = "Clerk";
-            _salary = 40000;
-            _employee_leaves = 4;
-            break;
-        case '3':
-            _employee_designation = "Accountant";
-            _salary = 50000;
-            _employee_leaves = 5;
-            break;
-        case '4':
-            _employee_designation = "IT specailist";
-            _salary = 100000;
-            _employee_leaves = 8;
-            break;
-        case '5':
-            _employee_designation = "Sales Representative";
-            _salary = 70000;
-            _employee_leaves = 6;
-            break;
-        case '6':
-            _employee_designation = " Marketing person ";
-            _salary = 80000;
-            _employee_leaves = 5;
-            break;
-
-        default:
-            cout << "\t\tInvalid choice!!! . Please enter again " << endl;
-            goto e;
-            break;
-        }
-
-        // Saving the data in the file
-        ofstream file_write;
-        file_write.open("EmployeesData.txt", ios::out | ios::app);
-        if (!file_write.is_open())
-        {
-            cout << "\t\tError opening the file " << endl;
-            return;
-        }
-        file_write << _id << "\n";
-        file_write << _name << "\n";
-        file_write << _age << "\n";
-        file_write << _phone_number << "\n";
-        file_write << _employee_designation << "\n";
-        file_write << _salary << "\n";
-        file_write << _employee_leaves << "\n";
-        file_write << _address << "\n";
-
-        file_write.close();
-
-        cout << "\tEmployee added successfully! " << endl;
-        _employee_count++;
-        _employee_number++;
-    }*/
 
     void Add_Employee()
     {
@@ -354,6 +143,11 @@ public:
             {
                 valid_age = true;
             }
+
+            if (_age < 0)
+            {
+                cout << " The age cannot be negative " << endl;
+            }
         }
 
         cin.ignore();
@@ -426,6 +220,8 @@ public:
         {
             cout << "\t\t\tDesignation of the employees: " << endl;
             cout << "\t\t\tWhat is the type of the employee " << endl;
+
+            Set_Colour(11);
             cout << "\t\t\t-------------Choose from below--------------" << endl;
             cout << "\t\t\t____________________________________________" << endl;
             cout << "\t\t\t|                                           |" << endl;
@@ -438,6 +234,7 @@ public:
             cout << "\t\t\t|___________________________________________|" << endl;
             choice = getch();
 
+            Set_Colour(15);
             switch (choice)
             {
             case '1':
@@ -532,6 +329,7 @@ public:
 
         while (!file.eof()) // The loop will itrate from the beigning  to the the end of the file
         {
+            Set_Colour(14);
             cout << "\n";
             cout << "\n\t\t *************************************************************************" << endl;
             cout << "\t\t ||\t                    Data of Employee"
@@ -552,6 +350,7 @@ public:
 
             Sleep(1000);
 
+            Set_Colour(15);
             file >> _id;
             file.ignore();
             getline(file, _name);
@@ -598,6 +397,7 @@ public:
             if (search_id == _id)
             {
 
+                Set_Colour(14);
                 cout << "\n";
                 cout << "\n\t\t *************************************************************************" << endl;
                 cout << "\t\t ||\t                    Data of Employee:    " << search_id
@@ -631,6 +431,7 @@ public:
             getline(file, _address);
         }
 
+        Set_Colour(15);
         file.close();
 
         if (found == false)
@@ -761,6 +562,7 @@ public:
             {
                 cout << "\n\t\t   Employee ID found. Update the information" << endl;
                 cout << "\t\t  What do you want to update " << endl;
+                Set_Colour(11);
                 cout << "\t\t   -------------Choose from below------------- " << endl;
                 cout << "\n\t\t    __________________________________________ ";
                 cout << "\n\t\t   |                                          |";
@@ -776,6 +578,7 @@ public:
 
                 system("CLS");
 
+                Set_Colour(15);
                 switch (choose)
                 {
                 case '1':
@@ -789,6 +592,7 @@ public:
                         {
                             cout << endl;
 
+                            Set_Colour(12);
                             cout << "\t\tInvalid input! Enter alphabets only. " << endl;
                             goto a;
                         }
@@ -796,6 +600,7 @@ public:
 
                     break;
 
+                    Set_Colour(15);
                 case '2':
                     cout << "\n\tEnter the new address: ";
                     cin.ignore();
@@ -812,6 +617,7 @@ public:
                     cin >> _phone_number;
                     if (cin.fail())
                     {
+                        Set_Colour(12);
                         cout << "\t\tInvalid input. Enter integers only " << endl;
                         goto c;
                     }
@@ -850,12 +656,14 @@ public:
 
                     break;
 
+                    Set_Colour(15);
                 case '4':
                 d:
                     cout << "\n\tEnter the new salary: ";
                     cin >> _salary;
                     if (cin.fail())
                     {
+                        Set_Colour(12);
                         cout << "\t\tInvlid Input!!!  Enter integers only " << endl;
                         goto d;
                     }
@@ -869,6 +677,7 @@ public:
 
                     break;
 
+                    Set_Colour(15);
                 case '5':
                 e:
                     cout << "\n\tEnter the new total leaves: ";
@@ -898,6 +707,7 @@ public:
             file_1 << _employee_leaves << "\n";
             file_1 << _address << "\n";
 
+            Set_Colour(15);
             file >> _id;
             file.ignore();
             getline(file, _name);
@@ -927,209 +737,6 @@ public:
             Sleep(1000);
         }
     }
-
-    /*void Employee_Appliyng_for_Leave()
-    {
-        string id, _leave_type, emp_name;
-        int _leave_days;
-        char choose;
-        register bool found = false; // A flag variable
-        cout << " Enter your id ";
-        cin >> id;
-        fstream file, file_1;
-        file.open("EmployeesData.txt", ios::in);
-        if (!file.is_open())
-        {
-            cout << "\tError opening file.";
-            return;
-        }
-        file_1.open("promote.txt", ios::out);
-        if (!file_1.is_open())
-        {
-            cout << "\tError opening file.";
-            return;
-        }
-        // Reading from the file to take the id of the employee adn match whether an employee with this id exist or not
-        // Also to update the employee leaves if their leave is expcepted
-        file >> _id;
-        file.ignore();
-        getline(file, _name);
-        file >> _age >> _phone_number;
-        file.ignore();
-        getline(file, _employee_designation);
-        file >> _salary >> _employee_leaves;
-        file.ignore();
-        getline(file, _address);
-        emp_name = _name; // Storing the name for passing into the application
-        while (!file.eof())
-        {
-            if (id == _id)
-            {
-                cout << "\n\t\t   Employee ID found. " << endl;
-                start:
-                cout << "\n\t\t  Which type of leave you want to apply ? ";
-                cout << "\n\t\t\t   -------------Choose from below------------- " << endl;
-                cout << "\n\t\t    __________________________________________ ";
-                cout << "\n\t\t   |                                          |";
-                cout << "\n\t\t   |  1--> Sick Leave                         |"
-                     << "\n\t\t   |  2--> Personal Leave                     |"
-                     << "\n\t\t   |  3--> Study Leave                        |"
-                     << "\n\t\t   |  4--> Annual Leave                       |"
-                     << "\n\t\t   |  5--> Maternity Leave                    |";
-                cout << "\n\t\t   |__________________________________________|" << endl;
-                choose = getch();
-                if (cin.fail())
-                {
-                    cout << " \n";
-                    cout << " \t\t\t   Error! Please choose from the below " << endl;
-                    cout << "\n\t\t  Which type of leave you want to apply ? ";
-                    cout << "\n\t\t\t   -------------Choose from below------------- " << endl;
-                    cout << "\n\t\t    __________________________________________ ";
-                    cout << "\n\t\t   |                                          |";
-                    cout << "\n\t\t   |  1--> Sick Leave                         |"
-                         << "\n\t\t   |  2--> Personal Leave                     |"
-                         << "\n\t\t   |  3--> Study Leave                        |"
-                         << "\n\t\t   |  4--> Annual Leave                       |"
-                         << "\n\t\t   |  5--> Maternity Leave                    |";
-                    cout << "\n\t\t   |__________________________________________|" << endl;
-                    // Built-in function   This function returns true when an input failure occurs. In this case it would be an input that is not an integer.
-                    //  If the cin fails then the input buffer is kept in an error state.  Buffer is region of memory used to store data temporarily
-                    cin.clear();
-                    // Built-in function    This function to remove undesirable characters from the input buffer
-                    cin.ignore(132, '\n');
-                    choose = getch();
-                }
-                Sleep(2000);
-                system("CLS");
-                const string TO = " Manager "; // Means writing the application to the Manager
-                switch (choose)
-                {
-                case '1': // Sick Leave
-                    _leave_type = " sick leave ";
-                    _leave_days = get_Leave_Days(_leave_type);
-                    Sick_Leave_Application(get_Illness_Reason(), get_Illness_Symptoms(), _leave_days, emp_name, TO);
-                    // Application_Approval();
-                    if (Application_Approval() == 1)
-                    {
-                        Application_Accepted();
-                        _employee_leaves += _leave_days;
-                        break;
-                    }
-                    else
-                    {
-                        Application_Rejected();
-                        _employee_leaves = _employee_leaves;
-                        break;
-                    }
-                case '2': // Unpaid Leave
-                    _leave_type = " personal leave ";
-                    _leave_days = get_Leave_Days(_leave_type);
-                    Personal_Leave_Application(get_Personal_Reason(), _leave_days, emp_name, TO);
-                    cout << "\n";
-                    if (Application_Approval() == 1)
-                    {
-                        Application_Accepted();
-                        _employee_leaves += _leave_days;
-                        break;
-                    }
-                    else
-                    {
-                        Application_Rejected();
-                        _employee_leaves = _employee_leaves;
-                        break;
-                    }
-                case '3': // Study Leave
-                    _leave_type = " study leave ";
-                    _leave_days = get_Leave_Days(_leave_type);
-                    Study_Leave_Application(get_Study_Reason(), get_Study_Field(), _leave_days, emp_name, TO);
-                    cout << "\n";
-                    if (Application_Approval() == 1)
-                    {
-                        Application_Accepted();
-                        _employee_leaves += _leave_days;
-                        break;
-                    }
-                    else
-                    {
-                        Application_Rejected();
-                        _employee_leaves = _employee_leaves;
-                        break;
-                    }
-                case '4': // Annual Leave
-                    _leave_type = " annual leave ";
-                    _leave_days = get_Leave_Days(_leave_type);
-                    Annual_Leave_Application(get_Annual_Reason(), _leave_days, emp_name, TO);
-                    cout << "\n";
-                    if (Application_Approval() == 1)
-                    {
-                        Application_Accepted();
-                        _employee_leaves += _leave_days;
-                        break;
-                    }
-                    else
-                    {
-                        Application_Rejected();
-                        _employee_leaves = _employee_leaves;
-                        break;
-                    }
-                case '5': // Maternity Leave
-                    _leave_type = " maternity leave ";
-                    _leave_days = get_Leave_Days(_leave_type);
-                    Materity_Leave_Application(get_Maternity_Reason(), _leave_days, emp_name, TO);
-                    cout << "\n";
-                    if (Application_Approval() == 1)
-                    {
-                        Application_Accepted();
-                        _employee_leaves += _leave_days;
-                        break;
-                    }
-                    else
-                    {
-                        Application_Rejected();
-                        _employee_leaves = _employee_leaves;
-                        break;
-                    }
-                default:
-                    cout << "\n";
-                    cout << "\n\t Invalid Input !!!." << endl;
-                    system("CLS");
-                    goto start;
-                    break;
-                }
-                found = true;
-            }
-            file_1 << _id << "\n";
-            file_1 << _name << "\n";
-            file_1 << _age << "\n";
-            file_1 << _phone_number << "\n";
-            file_1 << _employee_designation << "\n";
-            file_1 << _salary << "\n";
-            file_1 << _employee_leaves << "\n";
-            file_1 << _address << "\n";
-            file >> _id;
-            file.ignore();
-            getline(file, _name);
-            file >> _age >> _phone_number;
-            file.ignore();
-            getline(file, _employee_designation);
-            file >> _salary >> _employee_leaves;
-            file.ignore();
-            getline(file, _address);
-        }
-        file.close();
-        file_1.close();
-        remove("EmployeesData.txt");
-        rename("promote.txt", "EmployeesData.txt");
-        // Show prompt that the data of the employee is updated successfully
-        if (found == true)
-        {
-            cout << "\tThanks for applying to the leave." << endl;
-        }
-        else
-        {
-            cout << "\tEmployee ID not found." << endl;
-        }
-    }*/
 
     void Employee_Applying_for_Leave()
     {
@@ -1168,6 +775,7 @@ public:
                 cout << "\n\t\t   Employee ID found. " << endl;
             start:
                 cout << "\n\t\t  Which type of leave do you want to apply for? ";
+                Set_Colour(11);
                 cout << "\n\t\t\t   -------------Choose from below------------- " << endl;
                 cout << "\n\t\t    __________________________________________ ";
                 cout << "\n\t\t   |                                          |";
@@ -1189,6 +797,7 @@ public:
 
                 const string TO = "Manager"; // Means writing the application to the Manager
 
+                Set_Colour(15);
                 switch (choose)
                 {
                 case '1': // Sick Leave
@@ -1222,7 +831,15 @@ public:
                     break;
 
                 default:
-                    cout << "\n\t Invalid Input !!!." << endl;
+                    Set_Colour(12);
+                    cout << "\n\t Invalid Input";
+                    Set_Colour(15);
+                    for (int i = 0; i < 3; i++)
+                    {
+                        cout << "!";
+                        Sleep(1000);
+                    }
+
                     goto start;
                 }
 
@@ -1253,6 +870,8 @@ public:
 
         file.close();
         file_1.close();
+
+        Set_Colour(15);
 
         remove("EmployeesData.txt");
         rename("promote.txt", "EmployeesData.txt");
@@ -1383,12 +1002,18 @@ public:
 
             Set_ID(_enter_id); // Id of the employee is being set
 
-            cout << "\n\n\t\tEmployee Managment System : " << endl;
+            Set_Colour(14);
+            cout << "\t\t\t===============================================================" << endl;
+            cout << "\t\t\t               Employee Management System                      " << endl;
+            cout << "\t\t\t===============================================================" << endl;
+
+            Set_Colour(15);
             cout << "\n\n\t\tPlease SIGN UP by adding username and password " << endl;
             cout << "\n\n\t\tEnter Username :  ";
             getline(cin, username);
             if (username.length() <= 6 || !Strong_Username(username))
             {
+                Set_Colour(12);
                 cout << "\tThe username must consist of more than six characters "
                      << "and consist of at-least one upper case one lowercase and one symbol. " << endl;
                 cout << endl;
@@ -1404,6 +1029,7 @@ public:
                 goto point;
             }
 
+            Set_Colour(15);
             cout << "\n\n\t\tPassword : ";
             char pass; // Password is taken in char thats make it easy to convert it into assteterics
 
@@ -1422,11 +1048,13 @@ public:
             }
             if (password.length() < 5)
             {
+                Set_Colour(12);
                 cout << " \t The password length should be more than 5  " << endl;
                 Sleep(2000);
                 goto point;
             }
 
+            Set_Colour(15);
             fstream file;
             file.open("EmpoloyeeUserPass.txt", ios::out | ios::app);
             if (!file.is_open())
@@ -1437,14 +1065,16 @@ public:
             file << username << "\n";
             file << password << "\n";
             file.close();
+
+            Set_Colour(3);
             cout << "\n\n\t\tYour ID is being created.Please Wait ";
-            for (int i = 0; i < 4; i++) // used to make a delay on the screen
+            Set_Colour(15);
+            for (int i = 0; i < 4; i++)
             {
                 cout << ".";
                 Sleep(1000);
             }
             cout << "\n\n\t\tYour ID HAS BEEN CREATED ";
-            // Employee_Login(_enter_id); // login function called.
         }
         else
         {
@@ -1463,10 +1093,12 @@ public:
         string username_1, pass_1, password, username;
         register bool match = false; // bool found used to check conditions
 
+        Set_Colour(14);
         cout << "\t\t\t===============================================================" << endl;
         cout << "\t\t\t               Employee Management System                      " << endl;
         cout << "\t\t\t===============================================================" << endl;
 
+        Set_Colour(15);
         cout << "\n\n\t\tPlease Login by entering username and password " << endl;
         cout << "\n\n\t\tEnter Username:  ";
         getline(cin, username_1);
@@ -1501,6 +1133,7 @@ public:
             {
                 match = true;
                 break;
+                Set_Colour(14);
                 cout << "\n";
                 cout << " \t \t \t \t Login Successful " << endl;
                 cout << "\n";
@@ -1515,6 +1148,7 @@ public:
         }
         file.close();
 
+        Set_Colour(15);
         if (match == true)
         {
             char choice;
@@ -1522,6 +1156,7 @@ public:
         a:
             system("CLS");
 
+            Set_Colour(11);
             cout << "\t\t\t-------------Choose from below--------------" << endl;
             cout << "\t\t\t __________________________________________ " << endl;
             cout << "\t\t\t|                                          |" << endl;
@@ -1537,6 +1172,7 @@ public:
             cout << "\t\t\t|__________________________________________|" << endl;
             choice = getch();
 
+            Set_Colour(15);
             switch (choice)
             {
             case '1':
@@ -1578,6 +1214,7 @@ public:
                     char option;
 
                 point_b:
+                    Set_Colour(11);
                     cout << "Do you want to check in or check out? " << endl;
                     cout << " __________________________________________ " << endl;
                     cout << "|                                          |" << endl;
@@ -1586,6 +1223,7 @@ public:
                     cout << "|__________________________________________|" << endl;
                     option = getch();
 
+                    Set_Colour(15);
                     switch (option)
                     {
                     case '1':
@@ -1666,6 +1304,7 @@ public:
                 goto a;
                 break;
 
+                Set_Colour(15);
             case '7':
                 Employee_Applying_For_Promotion(Get_ID());
                 goto a;
@@ -1680,7 +1319,9 @@ public:
                 break;
 
             default:
+                Set_Colour(12);
                 cout << " Invlaid Choice ";
+                Set_Colour(15);
                 for (int i = 0; i < 4; i++)
                 {
                     cout << "!";
@@ -1690,6 +1331,7 @@ public:
                 break;
             }
         }
+        Set_Colour(15);
     }
 
     // This member function is used to chech whether an employee with this id is present in the system or not
@@ -1773,6 +1415,7 @@ public:
             if (_emp_id == _id)
             {
 
+                Set_Colour(14);
                 cout << "\n";
                 cout << "\n\t\t *************************************************************************" << endl;
                 cout << "\t\t ||\t                    Data of Employee:         " << _emp_id
@@ -1807,6 +1450,7 @@ public:
 
         file.close();
 
+        Set_Colour(15);
         cout << " Your attendance count is " << Get_Employee_Attendance_Count(_emp_id);
 
         /*if (found == false)
@@ -1858,6 +1502,7 @@ public:
             if (_emp_id == _id)
             {
             Menu:
+                Set_Colour(11);
                 cout << "\n\t\t\t-------------Choose from below------------- " << endl;
                 cout << "\t\t    __________________________________________ " << endl;
                 cout << "\t\t   |                                          |" << endl;
@@ -1868,6 +1513,7 @@ public:
                 Sleep(3000);
                 system("CLS");
 
+                Set_Colour(15);
                 switch (main_choice)
                 {
                 case '1':
@@ -1875,6 +1521,7 @@ public:
 
                     cout << "\t\t\tDesignation of the employees: " << endl;
                     cout << "\t\t\tWhat is the type of the employee " << endl;
+                    Set_Colour(11);
                     cout << "\t\t\t-------------Choose from below--------------" << endl;
                     cout << "\t\t\t____________________________________________" << endl;
                     cout << "\t\t\t|                                           |" << endl;
@@ -1887,6 +1534,7 @@ public:
                     cout << "\t\t\t|___________________________________________|" << endl;
                     sub_choice = getch();
 
+                    Set_Colour(15);
                     switch (sub_choice)
                     {
                     case '1':
@@ -1976,7 +1624,15 @@ public:
                         break;
 
                     default:
-                        cout << " Invalid choice!!! . Please enter again " << endl;
+                        Set_Colour(12);
+                        cout << " Invalid choice";
+                        Set_Colour(15);
+                        for (int i = 0; i < 3; i++)
+                        {
+                            cout << "!";
+                            Sleep(1000);
+                        }
+
                         goto e;
                         break;
                     }
@@ -2014,6 +1670,8 @@ public:
 
         file.close();
         file_1.close();
+
+        Set_Colour(15);
 
         remove("EmployeesData.txt");
         rename("promote.txt", "EmployeesData.txt");

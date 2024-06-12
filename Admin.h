@@ -5,6 +5,11 @@
 #include <ctime>   // for time()
 #include <cstdlib> // for rand()
 
+void SetColor(int value)
+{
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), value);
+}
+
 class Admin : public Manager
 {
 private:
@@ -59,13 +64,21 @@ public:
     point: // point declared here will come here if username requirements not met
         system("CLS");
         string username, password;
-        cout << "\n\n\t\tEmployee Management System : " << endl;
+
+        SetColor(14);
+        cout << "\t\t\t===============================================================" << endl;
+        cout << "\t\t\t               Employee Management System                      " << endl;
+        cout << "\t\t\t===============================================================" << endl;
+
+        SetColor(15);
         cout << "\n\n\t\tPlease SIGN UP by adding username and password " << endl;
+
         cout << "\n\n\t\tEnter Username :  ";
         getline(cin, username);
 
         if (username.length() <= 6 || !Is_Strong_Username(username))
         {
+            SetColor(12);
             cout << "\tThe username must consist of more than six characters "
                  << "and consist of at-least one upper case one lowercase and one symbol. " << endl;
             cout << endl;
@@ -74,6 +87,7 @@ public:
         }
         else if (username.length() >= 20 || !Is_Strong_Username(username))
         {
+            SetColor(12);
             cout << "\tThe username must consist of less than twenty characters "
                  << "and consist of at-least one upper case one lowercase and one symbol. " << endl;
             cout << endl;
@@ -81,6 +95,7 @@ public:
             goto point;
         }
 
+        SetColor(15);
         cout << "\n\n\t\tPassword : ";
         char pass; // Password is taken in char thats make it easy to convert it into asterik
 
@@ -99,11 +114,12 @@ public:
         }
         if (password.length() < 5)
         {
+            SetColor(12);
             cout << " \t The password length should be more than 5  " << endl;
             Sleep(2000);
             goto point;
         }
-        while (check_existingID >> existingID)
+        while (getline(check_existingID, existingID))
         { // this part checks if admin username already exists
             if (existingID == username)
             {
@@ -114,6 +130,7 @@ public:
         check_existingID.close();
         if (found)
         {
+            SetColor(10);
             cout << endl;
             cout << setw(80) << " =================================" << endl;
             cout << setw(80) << "| ID already exists.              |" << endl;
@@ -121,11 +138,12 @@ public:
             cout << setw(80) << " =================================" << endl;
             Sleep(4000);
             system("CLS");
+            SetColor(15);
             Admin_Login();
         }
         else
         {
-
+            SetColor(15);    
             fstream file;
             file.open("AdminUserPass.txt", ios::out | ios::app);
             if (!file.is_open())
@@ -136,13 +154,18 @@ public:
             file << username << "\n";
             file << password << "\n";
             file.close();
+
+            SetColor(3);
             cout << "\n\n\t\tYour ID is being created.Please Wait ";
+
+            SetColor(15);
             for (int i = 0; i < 4; i++) // used to make a delay on the screen
             {
                 cout << ".";
                 Sleep(1000);
             }
 
+            SetColor(15);    
             Sleep(1000);
             cout << "\n\n\t\tYour ID HAS BEEN CREATED ";
             system("CLS");
@@ -156,10 +179,12 @@ public:
         string username_1, pass_1, password, username;
         bool match = false; // bool found used to check conditions
 
+        SetColor(14);
         cout << "\t\t\t===============================================================" << endl;
         cout << "\t\t\t               Employee Management System                      " << endl;
         cout << "\t\t\t===============================================================" << endl;
 
+SetColor(15);    
         cout << "\n\n\t\tPlease Login by entering username and password " << endl;
 
         cout << "\n\n\t\tEnter Username:  ";
@@ -186,6 +211,7 @@ public:
         file.open("AdminUserPass.txt");
         if (!file.is_open())
         {
+            SetColor(12);
             cout << "\n\n\t\tAdmin with this username and password donot exist in your system " << endl;
             cout << "\n\t\tFirst of all SIGN-UP then do the login " << endl;
             Sleep(1000);
@@ -211,24 +237,30 @@ public:
             _otp = Generate_OTP();
             int _user_otp;
 
+            SetColor(3);
             cout << "\n";
             cout << "\t\t\t ________________________ " << endl;
             cout << "\t\t\t|                        |" << endl;
             cout << "\t\t\t|      OTP: " << setw(10) << left << _otp << "   |" << endl;
             cout << "\t\t\t|________________________|" << endl;
 
-            Sleep(5000);
+            Sleep(4000);
             system("CLS"); // for making the otp disappear after few seconds
         OTP:
+        SetColor(15);    
             cout << "\n\t\tEnter the OTP: ";
             cin >> _user_otp;
             if (cin.fail())
             {
+                SetColor(12);
                 cout << "\t\tInvalid  Input!!! . Enter integers only " << endl;
                 goto OTP;
             }
 
+            SetColor(3);
             cout << "\n\t\t Checking for the authentication";
+
+            SetColor(15);
             for (int i = 0; i < 4; i++)
             {
                 cout << ".";
@@ -239,6 +271,7 @@ public:
 
             if (_otp == _user_otp)
             {
+                SetColor(10);
                 cout << "\t\t\t    ______________________________________ " << endl;
                 cout << "\t\t\t   |                                      |" << endl;
                 cout << "\t\t\t   |       Authentication Successful      |" << endl;
@@ -247,9 +280,11 @@ public:
                 Sleep(1000);
                 system("CLS");
 
+                SetColor(14);
                 cout << "\n";
                 cout << " \t \t \t \t Login Successful " << endl
                      << endl;
+
                 cout << "\t\t\t===============================================================" << endl;
                 cout << "\t\t\t                       Welcome  Admin                          " << endl;
                 cout << "\t\t\t===============================================================" << endl;
@@ -260,12 +295,14 @@ public:
                 char mainchoice, subchoice_a, subchoice_b;
 
                 system("CLS");
+                SetColor(15);    
                 Set_Total_Employees();
                 Set_Total_Managers();
 
             Menu:
                 system("CLS");
-                // Sleep(2000);
+
+                SetColor(11);
                 cout << "\t\t\t------------Choose from below----------- " << endl;
                 cout << "\t\t\t _______________________________________" << endl;
                 cout << "\t\t\t|                                       |" << endl;
@@ -275,13 +312,15 @@ public:
                 cout << "\t\t\t|_______________________________________|" << endl;
                 mainchoice = getch();
 
+                SetColor(15);    
                 switch (mainchoice)
                 {
                 case '1':
 
                 point_a:
                     system("CLS");
-                    // Sleep(2000);
+
+                    SetColor(11);
                     cout << "\t\t\t------------Choose from below----------- " << endl;
                     cout << "\t\t\t _______________________________________" << endl;
                     cout << "\t\t\t|                                       |" << endl;
@@ -297,6 +336,7 @@ public:
                     cout << "\t\t\t|_______________________________________|" << endl;
                     subchoice_a = getch();
 
+                    SetColor(15);    
                     switch (subchoice_a)
                     {
                     case '1':
@@ -381,6 +421,7 @@ public:
                         break;
 
                     default:
+                        SetColor(12);
                         cout << " Invalid choice ";
                         for (int i = 0; i < 3; i++)
                         {
@@ -398,8 +439,8 @@ public:
 
                 point_b:
                     system("CLS");
-                    // Sleep(1000);
 
+                    SetColor(11);
                     cout << "\t\t\t------------Choose from below----------- " << endl;
                     cout << "\t\t\t _______________________________________" << endl;
                     cout << "\t\t\t|                                       |" << endl;
@@ -415,6 +456,8 @@ public:
                     cout << "\t\t\t|_______________________________________|" << endl;
                     subchoice_b = getch();
 
+
+                    SetColor(15);    
                     switch (subchoice_b)
                     {
                     case '1':
@@ -499,6 +542,7 @@ public:
                         break;
 
                     default:
+                        SetColor(12);
                         cout << "\t\tInvalid choice ";
                         for (int i = 0; i < 3; i++)
                         {
@@ -516,7 +560,9 @@ public:
                     break;
 
                 default:
+                    SetColor(12);
                     cout << " Invalid Input ";
+                    SetColor(15);    
                     for (int i = 0; i < 3; i++)
                     {
                         cout << "!";
@@ -528,6 +574,7 @@ public:
             }
             else
             {
+                SetColor(12);
                 cout << "\t\t\t    ______________________________________ " << endl;
                 cout << "\t\t\t   |                                      |" << endl;
                 cout << "\t\t\t   |     Authentication Unsuccessful      |" << endl;
@@ -549,6 +596,7 @@ public:
         string username, password, username_1, password_1;
         bool match = false;
 
+        SetColor(15);  
         cout << "\n\n\t\tEnter the username: ";
         getline(cin, username);
 
@@ -599,6 +647,7 @@ public:
             getline(cin, username);
             if (username.length() <= 6 || !Is_Strong_Username(username))
             {
+                SetColor(12);
                 cout << "\tThe username must consist of more than six characters "
                      << "and consist of at least one upper case, one lower case, and one symbol." << endl;
                 cout << endl;
@@ -607,6 +656,7 @@ public:
             }
             else if (username.length() >= 20 || !Is_Strong_Username(username))
             {
+                SetColor(12);
                 cout << "\tThe username must consist of less than twenty characters "
                      << "and consist of at least one upper case, one lower case, and one symbol." << endl;
                 cout << endl;
@@ -614,6 +664,7 @@ public:
                 goto point;
             }
 
+            SetColor(15);  
             cout << "\n\n\t\tEnter the new password: ";
             char pass;
             password.clear();
@@ -632,15 +683,18 @@ public:
             }
             if (password.length() < 5)
             {
+                SetColor(12);
                 cout << "\t\t The password length should be more than 5  " << endl;
                 Sleep(1000);
                 goto point;
             }
 
+            SetColor(15);  
             fstream file_1;
             file_1.open("temp.txt", ios::out | ios::app);
             if (!file_1.is_open())
             {
+                SetColor(12);
                 cout << "\n\n\t\tError opening the file " << endl;
                 return;
             }
@@ -650,7 +704,10 @@ public:
 
             remove("AdminUserPass.txt");
             rename("temp.txt", "AdminUserPass.txt");
+
+            SetColor(3);  
             cout << "\n\n\t\tYour ID is being created. Please Wait ";
+            SetColor(15);  
             for (int i = 0; i < 4; i++) // used to make a delay on the screen
             {
                 cout << ".";
@@ -676,7 +733,7 @@ public:
 
     void Set_Total_Managers()
     {
-    
+
         int number;
         bool valid_input = false;
 
@@ -690,10 +747,9 @@ public:
             {
                 cout << "\n\n\t\t Invalid Input. Please enter again " << endl;
                 cin.clear();
-                cin.ignore(132 , '\n');
-    
+                cin.ignore(132, '\n');
             }
-            else 
+            else
             {
                 valid_input = true;
             }
